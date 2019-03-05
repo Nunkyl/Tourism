@@ -16,4 +16,6 @@ public interface UserRepo extends BaseRepo{
     BaseUser findByID(Integer ID);
 
     List<BaseUser> search(BaseUserSearchCondition searchCondition);
+
+    void update (BaseUser user);
 }

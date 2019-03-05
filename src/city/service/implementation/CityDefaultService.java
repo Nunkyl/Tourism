@@ -58,4 +58,8 @@ public class CityDefaultService implements CityService {
         return cityRepo.search(searchCondition);
     }
 
+    @Override
+    public void update(City city) {
+        cityRepo.update(city);
+    }
 }

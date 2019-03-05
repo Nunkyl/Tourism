@@ -110,4 +110,9 @@ public class UserMemoryListRepo implements UserRepo {
         usersInStorage.remove(index);
     }
 
+
+    @Override
+    public void update (BaseUser user){
+        // Fill in later
+    }
 }

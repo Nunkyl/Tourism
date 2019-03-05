@@ -19,4 +19,6 @@ public interface UserService extends BaseService {
     void delete(BaseUser user);
 
     List<BaseUser> search(BaseUserSearchCondition searchCondition);
+
+    void update (BaseUser user);
 }

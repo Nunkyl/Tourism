@@ -15,6 +15,7 @@ public class Country extends BaseDomain {
     private String languages;
     private List<City> cities = null;
     private List<Order> orders = null;
+    ClimateType climateType;
 
     public Country() {
     }
@@ -40,6 +41,10 @@ public class Country extends BaseDomain {
         this.orders = orders;
     }
 
+    public void setClimateType(ClimateType climateType) {
+        this.climateType = climateType;
+    }
+
     public String getName() {
         return name;
     }
@@ -56,6 +61,9 @@ public class Country extends BaseDomain {
         return orders;
     }
 
+    public ClimateType getClimateType() {
+        return climateType;
+    }
 
     /**
     private String languagesToString(){

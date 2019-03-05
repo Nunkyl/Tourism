@@ -4,6 +4,7 @@ import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import common.business.application.StorageType;
 import common.business.application.servicefactory.ServiceSupplier;
 import common.solutions.utils.dataclasses.Pair;
+import common.solutions.utils.sequencegenerator.implementation.SimpleSequenceGenerator;
 import country.domain.Country;
 import country.search.CountrySearchCondition;
 import country.service.CountryService;
@@ -14,11 +15,12 @@ import order.domain.Order;
 import common.business.service.BaseService;
 import user.domain.StandardUser;
 import user.service.UserService;
+import country.domain.ClimateType;
 
 import java.util.LinkedList;
 import java.util.List;
 
-// https://github.com/DmitryYusupov/javacore/blob/master/src/ru/yusdm/javacore/lesson4oopinheritence/autoservice
+// https://github.com/DmitryYusupov/javacore/blob/master/src/ru/yusdm/javacore
 
 public class TourismDemo {
 
@@ -32,6 +34,8 @@ public class TourismDemo {
         private CountryService countryService = ServiceSupplier.getInstance().getCountryService();
         private CityService cityService = ServiceSupplier.getInstance().getCityService();
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
+
+        SimpleSequenceGenerator idGenerator = new SimpleSequenceGenerator();
 
         private Storage storage = new Storage();
 
@@ -159,6 +163,8 @@ public class TourismDemo {
 
             application.deleteUsers();
             System.out.println();
+
+            ClimateType cT = ClimateType.POLAR;
 
     }
 }

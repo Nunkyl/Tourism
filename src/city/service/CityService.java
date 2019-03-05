@@ -18,4 +18,6 @@ public interface CityService extends BaseService{
     void delete(City city);
 
     List<City> search(CitySearchCondition searchCondition);
+
+    void update (City city);
 }

@@ -25,6 +25,7 @@ public class CountryDefaultService implements CountryService{
     @Override
     public void add(Country country) {
         if (country != null) {
+            //country.setID();
             countryRepo.addCountry(country);
 
             if (country.getCities() != null) {
@@ -69,5 +70,10 @@ public class CountryDefaultService implements CountryService{
     @Override
     public List<Country> search(CountrySearchCondition searchCondition) {
         return countryRepo.search(searchCondition);
+    }
+
+    @Override
+    public void update(Country country) {
+        countryRepo.update(country);
     }
 }

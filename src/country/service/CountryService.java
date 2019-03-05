@@ -18,4 +18,6 @@ public interface CountryService extends BaseService {
     void delete(Country country);
 
     List<Country> search(CountrySearchCondition searchCondition);
+
+    void update (Country country);
 }

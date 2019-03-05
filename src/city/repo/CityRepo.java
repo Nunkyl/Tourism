@@ -16,4 +16,6 @@ public interface CityRepo extends BaseRepo {
     City findByID(Integer ID);
 
     List<City> search(CitySearchCondition searchCondition);
+
+    void update (City city);
 }

@@ -16,4 +16,6 @@ public interface OrderRepo extends BaseRepo {
     Order findByID(Integer ID);
 
     List<Order> search (OrderSearchCondition searchCondition);
+
+    void update (Order order);
 }

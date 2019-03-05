@@ -16,4 +16,6 @@ public interface CountryRepo extends BaseRepo{
     Country findByID(Integer ID);
 
     List<Country> search(CountrySearchCondition searchCondition);
+
+    void update (Country country);
 }

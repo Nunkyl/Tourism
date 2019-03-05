@@ -57,4 +57,9 @@ public class OrderDefaultService implements OrderService {
     public List<Order> search(OrderSearchCondition searchCondition) {
         return orderRepo.search(searchCondition);
     }
+
+    @Override
+    public void update(Order order) {
+        orderRepo.update(order);
+    }
 }

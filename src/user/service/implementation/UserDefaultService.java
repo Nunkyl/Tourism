@@ -59,4 +59,8 @@ public class UserDefaultService implements UserService {
         return userRepo.search(searchCondition);
     }
 
+    @Override
+    public void update(BaseUser user) {
+        userRepo.update(user);
+    }
 }

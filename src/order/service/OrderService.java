@@ -18,4 +18,6 @@ public interface OrderService extends BaseService {
     void delete(Order order);
 
     List<Order> search (OrderSearchCondition searchCondition);
+
+    void update (Order order);
 }
