@@ -9,9 +9,9 @@ import country.service.implementation.CountryDefaultService;
 import order.repo.implementation.OrderMemoryListRepo;
 import order.service.OrderService;
 import order.service.implementation.OrderDefaultService;
-import user.repo.implementation.UserMemoryListRepo;
+import user.repo.implementation.BaseUserMemoryListRepo;
 import user.service.UserService;
-import user.service.implementation.UserDefaultService;
+import user.service.implementation.BaseUserDefaultService;
 
 /**
  * Created by eliza on 27.02.19.
@@ -35,6 +35,6 @@ public class MemoryListServiceFactory implements ServiceFactory {
 
     @Override
     public UserService getUserService() {
-        return new UserDefaultService(new UserMemoryListRepo());
+        return new BaseUserDefaultService(new BaseUserMemoryListRepo());
     }
 }

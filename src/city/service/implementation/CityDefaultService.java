@@ -4,6 +4,7 @@ import city.domain.City;
 import city.repo.CityRepo;
 import city.search.CitySearchCondition;
 import city.service.CityService;
+import common.solutions.utils.sequencegenerator.SequenceGenerator;
 
 import java.util.List;
 
@@ -13,6 +14,12 @@ import java.util.List;
 public class CityDefaultService implements CityService {
 
     private final CityRepo cityRepo;
+    private SequenceGenerator sequenceGenerator;
+
+    @Override
+    public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
+        this.sequenceGenerator = sequenceGenerator;
+    }
 
     public CityDefaultService(CityRepo cityRepo) {
         this.cityRepo = cityRepo;
@@ -21,6 +28,7 @@ public class CityDefaultService implements CityService {
     @Override
     public void add(City city) {
         if (city != null) {
+            city.setID(sequenceGenerator.getNextID());
             cityRepo.add(city);
         }
     }

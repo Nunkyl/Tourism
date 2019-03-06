@@ -1,8 +1,8 @@
 import city.domain.City;
 import city.service.CityService;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import common.business.application.StorageType;
 import common.business.application.servicefactory.ServiceSupplier;
+import common.business.search.SortType;
 import common.solutions.utils.dataclasses.Pair;
 import common.solutions.utils.sequencegenerator.implementation.SimpleSequenceGenerator;
 import country.domain.Country;
@@ -35,20 +35,23 @@ public class TourismDemo {
         private CityService cityService = ServiceSupplier.getInstance().getCityService();
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
 
+
         SimpleSequenceGenerator idGenerator = new SimpleSequenceGenerator();
+
 
         private Storage storage = new Storage();
 
         private void addUsers() {
             String[] usersAsCsv = new String[]{
-                    "Ivan     | Ivanov",
-                    "Petr     | Petrov",
-                    "Dmitry   | Yuspov",
-                    "Dasha    | Jukova",
-                    "Wlad     | Belyh",
+                    "Amy      | Lee",
+                    "Jacob    | Martin",
+                    "John     | Joly",
+                    "Simona   | Grims",
+                    "Perl     | Laslow",
             };
 
             Integer id = 0;
+            userService.setSequenceGenerator(idGenerator); // ???
             for (String csvUser : usersAsCsv) {
                 String[] userAttrs = csvUser.split("\\|");
 
@@ -90,6 +93,14 @@ public class TourismDemo {
                                     "Cali       | 2400000 | False"
                             }
                     ),
+
+                    new Pair("Australia | English",
+                            new String[]{
+                                    "Sydney     | 4800000 | False ",
+                                    "Melbourne  | 4400000 | False",
+                                    "Perth      | 1900000 | False"
+                            }
+                    )
             };
 
             for (Pair countryCityData : countriesWithCities) {
@@ -103,6 +114,9 @@ public class TourismDemo {
 
             Country country = new Country(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
             country.setCities(new LinkedList<>());
+
+            cityService.setSequenceGenerator(idGenerator);
+            countryService.setSequenceGenerator(idGenerator);
 
             for (int i = 0; i < citiesCsv.length; i++) {
                 attrIndex = -1;
@@ -136,7 +150,8 @@ public class TourismDemo {
 
             System.out.println("----------Search countries by languages------------");
             CountrySearchCondition countrySearchCondition = new CountrySearchCondition();
-            countrySearchCondition.setLanguages("Spanish");
+            countrySearchCondition.setLanguages("English");
+            countrySearchCondition.setSortType(SortType.ASC);
             List<Country> searchResult = countryService.search(countrySearchCondition);
 
             System.out.println("-----------------------Search result------------------------");

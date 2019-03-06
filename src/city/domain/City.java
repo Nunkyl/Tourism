@@ -80,7 +80,8 @@ public class City extends BaseDomain{
     @Override
     public String toString() {
         return "City{" +
-                "name='" + name + '\'' +
+                "ID=" + ID + '\'' +
+                ", name='" + name + '\'' +
                 ", population=" + population +
                 ", isCapital=" + isCapital +
                 ", country=" + country +

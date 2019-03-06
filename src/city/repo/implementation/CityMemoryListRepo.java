@@ -3,8 +3,11 @@ package city.repo.implementation;
 import city.domain.City;
 import city.repo.CityRepo;
 import city.search.CitySearchCondition;
+import common.business.search.SortType;
 import order.domain.Order;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,7 +65,31 @@ public class CityMemoryListRepo implements CityRepo{
                 }
             }
         }
+
+        if (searchCondition.getSortType() == SortType.ASC)
+            Collections.sort(answer, new compareCity());
+
+        if (searchCondition.getSortType() == SortType.DECS)
+            Collections.sort(answer, Collections.reverseOrder(new compareCity()));
+
         return answer; // Check this
+    }
+
+    private class compareCity implements Comparator<City> {
+
+        @Override
+        public int compare(City o1, City o2) {
+
+            //if (o1.getID().compareTo(o2.getID()) == 0){
+
+            if (o1.getName().compareTo(o2.getName()) == 0){
+
+                return o1.getCountry().getName().compareTo(o2.getCountry().getName());
+
+            } else return o1.getName().compareTo(o2.getName());
+
+            //} else return o1.getID().compareTo(o2.getID());
+        }
     }
 
     @Override

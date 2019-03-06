@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by eliza on 26.02.19.
  */
-public class UserMemoryListRepo implements UserRepo {
+public class BaseUserMemoryListRepo implements UserRepo {
 
     @Override
     public void deleteByID(Integer ID){

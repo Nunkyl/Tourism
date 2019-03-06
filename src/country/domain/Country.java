@@ -98,7 +98,8 @@ public class Country extends BaseDomain {
     @Override
     public String toString() {
         return "Country{" +
-                "name='" + name + '\'' +
+                ", ID=" + ID + '\'' +
+                ", name='" + name + '\'' +
                 ", languages=" + languages +
                 ", citiesInStorage=" + citiesToString() +
                 ", ordersInStorage=" + ordersToString() +

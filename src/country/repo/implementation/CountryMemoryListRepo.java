@@ -1,5 +1,6 @@
 package country.repo.implementation;
 
+import common.business.search.SortType;
 import country.domain.Country;
 import country.repo.CountryRepo;
 import country.search.CountrySearchCondition;
@@ -8,10 +9,7 @@ import user.domain.BaseUser;
 import static common.solutions.utils.StringUtils.isNotBlank;
 import static storage.Storage.countriesInStorage;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Created by eliza on 27.02.19.
@@ -100,7 +98,31 @@ public class CountryMemoryListRepo implements CountryRepo {
                 }
             }
         }
+
+        if (searchCondition.getSortType() == SortType.ASC)
+            Collections.sort(answer, new compareCountry());
+
+        if (searchCondition.getSortType() == SortType.DECS)
+            Collections.sort(answer, Collections.reverseOrder(new compareCountry()));
+
         return answer; // Check this
+    }
+
+    private class compareCountry implements Comparator<Country> {
+
+        @Override
+        public int compare(Country o1, Country o2) {
+
+            if (o1.getID().compareTo(o2.getID()) == 0){
+
+                if (o1.getName().compareTo(o2.getName()) == 0){
+
+                    return o1.getLanguages().compareTo(o2.getLanguages());
+
+                } else return o1.getName().compareTo(o2.getName());
+
+            } else return o1.getID().compareTo(o2.getID());
+        }
     }
 
 

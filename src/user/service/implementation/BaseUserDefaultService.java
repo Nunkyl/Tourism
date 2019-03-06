@@ -1,6 +1,7 @@
 package user.service.implementation;
 
 
+import common.solutions.utils.sequencegenerator.SequenceGenerator;
 import user.domain.BaseUser;
 import user.repo.UserRepo;
 import user.search.BaseUserSearchCondition;
@@ -11,17 +12,25 @@ import java.util.List;
 /**
  * Created by eliza on 26.02.19.
  */
-public class UserDefaultService implements UserService {
+public class BaseUserDefaultService implements UserService {
 
     private final UserRepo userRepo;
+    private SequenceGenerator sequenceGenerator;
 
-    public UserDefaultService(UserRepo userRepo) {
+    @Override
+    public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
+        this.sequenceGenerator = sequenceGenerator;
+    }
+
+    public BaseUserDefaultService(UserRepo userRepo) {
+
         this.userRepo = userRepo;
     }
 
     @Override
     public void add(BaseUser user) {
         if (user != null) {
+            user.setID(sequenceGenerator.getNextID());
             userRepo.addUser(user);
         }
     }

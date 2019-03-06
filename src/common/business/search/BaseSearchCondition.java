@@ -5,10 +5,20 @@ package common.business.search;
  */
 public abstract class BaseSearchCondition {
 
+    protected SortType sortType;
+
     protected Integer ID;
+
+    public void setSortType(SortType sortType) {
+        this.sortType = sortType;
+    }
 
     public void setID(Integer ID) {
         this.ID = ID;
+    }
+
+    public SortType getSortType() {
+        return sortType;
     }
 
     public Integer getID() {
