@@ -1,4 +1,4 @@
-package common.solutions.utils.dataclasses;
+package common.solutions.dataclasses;
 
 /**
  * Created by eliza on 01.03.19.

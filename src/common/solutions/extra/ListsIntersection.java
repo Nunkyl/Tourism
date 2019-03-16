@@ -1,4 +1,4 @@
-package common.solutions.utils.extra;
+package common.solutions.extra;
 
 import java.util.ArrayList;
 import java.util.HashSet;

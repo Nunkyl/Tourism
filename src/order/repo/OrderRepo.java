@@ -1,6 +1,6 @@
 package order.repo;
 
-import common.business.repo.BaseRepo;
+import common.solutions.repo.BaseRepo;
 import order.domain.Order;
 import order.search.OrderSearchCondition;
 
@@ -9,13 +9,7 @@ import java.util.List;
 /**
  * Created by eliza on 22.02.19.
  */
-public interface OrderRepo extends BaseRepo {
+public interface OrderRepo extends BaseRepo<Order, Integer> {
 
-    void add(Order ordeer);
-
-    Order findByID(Integer ID);
-
-    List<Order> search (OrderSearchCondition searchCondition);
-
-    void update (Order order);
+    List<Order> search(OrderSearchCondition searchCondition);
 }

@@ -1,6 +1,6 @@
 package user.repo;
 
-import common.business.repo.BaseRepo;
+import common.solutions.repo.BaseRepo;
 import user.domain.BaseUser;
 import user.search.BaseUserSearchCondition;
 
@@ -9,13 +9,7 @@ import java.util.List;
 /**
  * Created by eliza on 26.02.19.
  */
-public interface UserRepo extends BaseRepo{
-
-    void addUser(BaseUser user);
-
-    BaseUser findByID(Integer ID);
+public interface UserRepo extends BaseRepo<BaseUser, Integer>{
 
     List<BaseUser> search(BaseUserSearchCondition searchCondition);
-
-    void update (BaseUser user);
 }

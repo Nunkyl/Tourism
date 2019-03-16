@@ -38,7 +38,7 @@ public class CountryMemoryListRepo implements CountryRepo {
     }
 
     @Override
-    public void addCountry(Country user) {
+    public void add(Country user) {
         countriesInStorage.add(user);
     }
 

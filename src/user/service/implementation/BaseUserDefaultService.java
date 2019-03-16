@@ -1,11 +1,12 @@
 package user.service.implementation;
 
 
-import common.solutions.utils.sequencegenerator.SequenceGenerator;
+import common.solutions.sequencegenerator.SequenceGenerator;
 import user.domain.BaseUser;
 import user.repo.UserRepo;
 import user.search.BaseUserSearchCondition;
 import user.service.UserService;
+import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
 
 import java.util.List;
 
@@ -15,12 +16,14 @@ import java.util.List;
 public class BaseUserDefaultService implements UserService {
 
     private final UserRepo userRepo;
-    private SequenceGenerator sequenceGenerator;
+    //private SequenceGenerator sequenceGenerator;
 
+    /*
     @Override
     public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
         this.sequenceGenerator = sequenceGenerator;
     }
+    */
 
     public BaseUserDefaultService(UserRepo userRepo) {
 
@@ -30,8 +33,8 @@ public class BaseUserDefaultService implements UserService {
     @Override
     public void add(BaseUser user) {
         if (user != null) {
-            user.setID(sequenceGenerator.getNextID());
-            userRepo.addUser(user);
+            user.setID(SimpleSequenceGenerator.getNextID());
+            userRepo.add(user);
         }
     }
 

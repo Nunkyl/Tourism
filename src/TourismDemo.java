@@ -3,16 +3,13 @@ import city.service.CityService;
 import common.business.application.StorageType;
 import common.business.application.servicefactory.ServiceSupplier;
 import common.business.search.SortType;
-import common.solutions.utils.dataclasses.Pair;
-import common.solutions.utils.sequencegenerator.implementation.SimpleSequenceGenerator;
+import common.solutions.dataclasses.Pair;
+import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
 import country.domain.Country;
 import country.search.CountrySearchCondition;
 import country.service.CountryService;
 import order.service.OrderService;
 import storage.Storage;
-import user.domain.BaseUser;
-import order.domain.Order;
-import common.business.service.BaseService;
 import user.domain.StandardUser;
 import user.service.UserService;
 import country.domain.ClimateType;
@@ -51,7 +48,7 @@ public class TourismDemo {
             };
 
             Integer id = 0;
-            userService.setSequenceGenerator(idGenerator); // ???
+            //userService.setSequenceGenerator(idGenerator); // ???
             for (String csvUser : usersAsCsv) {
                 String[] userAttrs = csvUser.split("\\|");
 
@@ -115,8 +112,8 @@ public class TourismDemo {
             Country country = new Country(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
             country.setCities(new LinkedList<>());
 
-            cityService.setSequenceGenerator(idGenerator);
-            countryService.setSequenceGenerator(idGenerator);
+            //cityService.setSequenceGenerator(idGenerator);
+            //countryService.setSequenceGenerator(idGenerator);
 
             for (int i = 0; i < citiesCsv.length; i++) {
                 attrIndex = -1;

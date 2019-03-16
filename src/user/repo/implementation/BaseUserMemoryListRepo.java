@@ -39,7 +39,7 @@ public class BaseUserMemoryListRepo implements UserRepo {
     }
 
     @Override
-    public void addUser(BaseUser user) {
+    public void add(BaseUser user) {
         usersInStorage.add(user);
     }
 

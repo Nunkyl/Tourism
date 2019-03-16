@@ -1,10 +1,11 @@
 package order.service.implementation;
 
-import common.solutions.utils.sequencegenerator.SequenceGenerator;
+import common.solutions.sequencegenerator.SequenceGenerator;
 import order.domain.Order;
 import order.repo.OrderRepo;
 import order.search.OrderSearchCondition;
 import order.service.OrderService;
+import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
 
 import java.util.List;
 
@@ -16,10 +17,12 @@ public class OrderDefaultService implements OrderService {
     private final OrderRepo orderRepo;
     private SequenceGenerator sequenceGenerator;
 
+    /*
     @Override
     public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
         this.sequenceGenerator = sequenceGenerator;
     }
+    */
 
     public OrderDefaultService(OrderRepo orderRepo) {
         this.orderRepo = orderRepo;
@@ -28,7 +31,7 @@ public class OrderDefaultService implements OrderService {
     @Override
     public void add(Order order) {
         if (order != null) {
-            order.setID(sequenceGenerator.getNextID());
+            order.setID(SimpleSequenceGenerator.getNextID());
             orderRepo.add(order);
         }
     }

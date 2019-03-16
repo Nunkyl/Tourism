@@ -2,11 +2,12 @@ package country.service.implementation;
 
 import city.domain.City;
 import city.repo.CityRepo;
-import common.solutions.utils.sequencegenerator.SequenceGenerator;
+import common.solutions.sequencegenerator.SequenceGenerator;
 import country.domain.Country;
 import country.repo.CountryRepo;
 import country.search.CountrySearchCondition;
 import country.service.CountryService;
+import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
 
 import java.util.List;
 
@@ -18,11 +19,12 @@ public class CountryDefaultService implements CountryService{
     private final CountryRepo countryRepo;
     private final CityRepo cityRepo;
     private SequenceGenerator sequenceGenerator;
-
+    /*
     @Override
     public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
         this.sequenceGenerator = sequenceGenerator;
     }
+    */
 
     public CountryDefaultService(CountryRepo countryRepo, CityRepo cityRepo) {
         this.countryRepo = countryRepo;
@@ -32,8 +34,8 @@ public class CountryDefaultService implements CountryService{
     @Override
     public void add(Country country) {
         if (country != null) {
-            country.setID(sequenceGenerator.getNextID());
-            countryRepo.addCountry(country);
+            country.setID(SimpleSequenceGenerator.getNextID());
+            countryRepo.add(country);
 
             if (country.getCities() != null) {
                 for (City city : country.getCities()) {
