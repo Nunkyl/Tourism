@@ -1,10 +1,9 @@
 package country.repo.implementation;
 
 import common.business.search.SortType;
-import country.domain.Country;
+import country.domain.BaseCountry;
 import country.repo.CountryRepo;
 import country.search.CountrySearchCondition;
-import user.domain.BaseUser;
 
 import static common.solutions.utils.StringUtils.isNotBlank;
 import static storage.Storage.countriesInStorage;
@@ -19,10 +18,10 @@ public class CountryMemoryListRepo implements CountryRepo {
     @Override
     public void deleteByID(Integer ID){
 
-        Iterator<Country> iterator = countriesInStorage.iterator();
+        Iterator<BaseCountry> iterator = countriesInStorage.iterator();
 
         while (iterator.hasNext()) {
-            Country buffer = iterator.next();
+            BaseCountry buffer = iterator.next();
             if (ID.equals(buffer.getID())) {
                 iterator.remove();
             }
@@ -32,18 +31,18 @@ public class CountryMemoryListRepo implements CountryRepo {
 
     @Override
     public void printAll(){
-        for (Country user: countriesInStorage){
+        for (BaseCountry user: countriesInStorage){
             System.out.println(user);
         }
     }
 
     @Override
-    public void add(Country user) {
+    public void add(BaseCountry user) {
         countriesInStorage.add(user);
     }
 
     @Override
-    public Country findByID(Integer ID) {
+    public BaseCountry findByID(Integer ID) {
         Integer userIndex = findUserIndexById(ID);
         if (userIndex != null) {
             return countriesInStorage.get(userIndex);
@@ -53,7 +52,7 @@ public class CountryMemoryListRepo implements CountryRepo {
 
     private Integer findUserIndexById(Integer ID) {
         int index = 0;
-        for (Country user: countriesInStorage) {
+        for (BaseCountry user: countriesInStorage) {
             if (ID.equals(user.getID()))
                 return index;
             else index++;
@@ -62,9 +61,9 @@ public class CountryMemoryListRepo implements CountryRepo {
     }
 
     @Override
-    public List<Country> search(CountrySearchCondition searchCondition) {
+    public List<BaseCountry> search(CountrySearchCondition searchCondition) {
 
-        List<Country> answer = new LinkedList<>();
+        List<BaseCountry> answer = new LinkedList<>();
 
         if (searchCondition.getID() != null) {
             answer.add(this.findByID(searchCondition.getID()));
@@ -73,7 +72,7 @@ public class CountryMemoryListRepo implements CountryRepo {
             boolean searchByName = isNotBlank(searchCondition.getName());
             boolean searchByLanguages = isNotBlank(searchCondition.getLanguages());
 
-            for (Country country : countriesInStorage) {
+            for (BaseCountry country : countriesInStorage) {
                 if (country != null) {
 
                     boolean found = true;
@@ -108,10 +107,10 @@ public class CountryMemoryListRepo implements CountryRepo {
         return answer; // Check this
     }
 
-    private class compareCountry implements Comparator<Country> {
+    private class compareCountry implements Comparator<BaseCountry> {
 
         @Override
-        public int compare(Country o1, Country o2) {
+        public int compare(BaseCountry o1, BaseCountry o2) {
 
             if (o1.getID().compareTo(o2.getID()) == 0){
 
@@ -131,7 +130,7 @@ public class CountryMemoryListRepo implements CountryRepo {
     }
 
     @Override
-    public void update(Country country) {
+    public void update(BaseCountry country) {
         // Fill in later
     }
 }

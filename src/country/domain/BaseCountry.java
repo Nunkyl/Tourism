@@ -9,18 +9,20 @@ import java.util.List;
 /**
  * Created by eliza on 22.02.19.
  */
-public class Country extends BaseDomain {
+public abstract class BaseCountry extends BaseDomain {
 
-    private String name;
-    private String languages;
+    protected ClimateCategory discriminator = null;
+
+    protected String name;
+    protected String languages;
     private List<City> cities = null;
     private List<Order> orders = null;
-    ClimateType climateType;
+    private ClimateType climateType;
 
-    public Country() {
+    public BaseCountry() {
     }
 
-    public Country(String name, String languages) {
+    public BaseCountry(String name, String languages) {
         this.name = name;
         this.languages = languages;
     }
@@ -37,12 +39,20 @@ public class Country extends BaseDomain {
         this.cities = cities;
     }
 
+    public void setDiscriminator(ClimateCategory discriminator) {
+        this.discriminator = discriminator;
+    }
+
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 
     public void setClimateType(ClimateType climateType) {
         this.climateType = climateType;
+    }
+
+    public ClimateCategory getDiscriminator() {
+        return discriminator;
     }
 
     public String getName() {
@@ -75,17 +85,17 @@ public class Country extends BaseDomain {
     }
      **/
 
-    private String citiesToString(){
+    protected String citiesToString(){
         StringBuilder output = new StringBuilder();
         if (cities != null) {
             for (City city : cities) {
-                output.append(city.getName()).append("\n");
+                output.append(city.getName()).append(", ");
             }
         }
         return output.toString();
     }
 
-    private String ordersToString(){
+    protected String ordersToString(){
         StringBuilder output = new StringBuilder();
         if (orders != null) {
             for (Order order : orders) {
@@ -96,13 +106,5 @@ public class Country extends BaseDomain {
     }
 
     @Override
-    public String toString() {
-        return "Country{" +
-                ", ID=" + ID + '\'' +
-                ", name='" + name + '\'' +
-                ", languages=" + languages +
-                ", citiesInStorage=" + citiesToString() +
-                ", ordersInStorage=" + ordersToString() +
-                '}';
-    }
+    public abstract String toString();
 }

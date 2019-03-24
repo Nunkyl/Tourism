@@ -2,7 +2,7 @@ package order.search;
 
 import city.domain.City;
 import common.business.search.BaseSearchCondition;
-import country.domain.Country;
+import country.domain.BaseCountry;
 import user.domain.BaseUser;
 
 /**
@@ -11,14 +11,14 @@ import user.domain.BaseUser;
 public class OrderSearchCondition extends BaseSearchCondition {
 
     private BaseUser user;
-    private Country country;
+    private BaseCountry country;
     private City city;
 
     public void setUser(BaseUser user) {
         this.user = user;
     }
 
-    public void setCountry(Country country) {
+    public void setCountry(BaseCountry country) {
         this.country = country;
     }
 
@@ -30,7 +30,7 @@ public class OrderSearchCondition extends BaseSearchCondition {
         return user;
     }
 
-    public Country getCountry() {
+    public BaseCountry getCountry() {
         return country;
     }
 

@@ -4,8 +4,7 @@ import city.domain.City;
 import city.repo.CityRepo;
 import city.search.CitySearchCondition;
 import city.service.CityService;
-import common.solutions.sequencegenerator.SequenceGenerator;
-import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
+import storage.SimpleSequenceGenerator;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class CityDefaultService implements CityService {
 
     private final CityRepo cityRepo;
-    private SequenceGenerator sequenceGenerator;
+    private SimpleSequenceGenerator sequenceGenerator;
 
     /*
     @Override

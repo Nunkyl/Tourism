@@ -2,7 +2,7 @@ package order.domain;
 
 import city.domain.City;
 import common.business.domain.BaseDomain;
-import country.domain.Country;
+import country.domain.BaseCountry;
 import user.domain.BaseUser;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class Order extends BaseDomain {
 
     private float price;
     private BaseUser user;
-    private List<Country> countries = null;
+    private List<BaseCountry> countries = null;
     private List<City> cities = null;
 
     public Order() {
@@ -39,7 +39,7 @@ public class Order extends BaseDomain {
         this.user = user;
     }
 
-    public void setCountries(List<Country> country) {
+    public void setCountries(List<BaseCountry> country) {
         this.countries = country;
     }
 
@@ -55,7 +55,7 @@ public class Order extends BaseDomain {
         return user;
     }
 
-    public List<Country> getCountries() {
+    public List<BaseCountry> getCountries() {
         return countries;
     }
 
@@ -73,7 +73,7 @@ public class Order extends BaseDomain {
 
     private String countriesToString(){
         StringBuilder output = new StringBuilder();
-        for (Country country : countries) {
+        for (BaseCountry country : countries) {
             output.append(country.getName()).append("\n");
         }
         return output.toString();

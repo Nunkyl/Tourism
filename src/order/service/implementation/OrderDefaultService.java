@@ -1,11 +1,10 @@
 package order.service.implementation;
 
-import common.solutions.sequencegenerator.SequenceGenerator;
 import order.domain.Order;
 import order.repo.OrderRepo;
 import order.search.OrderSearchCondition;
 import order.service.OrderService;
-import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
+import storage.SimpleSequenceGenerator;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class OrderDefaultService implements OrderService {
 
     private final OrderRepo orderRepo;
-    private SequenceGenerator sequenceGenerator;
+    private SimpleSequenceGenerator sequenceGenerator;
 
     /*
     @Override

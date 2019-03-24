@@ -10,7 +10,7 @@ public class CitySearchCondition extends BaseSearchCondition {
     private String name;
     private Integer population;
     //private boolean isCapital;
-    //private Country country;
+    //private BaseCountry country;
     //private Order order;
 
 

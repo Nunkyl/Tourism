@@ -4,20 +4,23 @@ import common.business.application.StorageType;
 import common.business.application.servicefactory.ServiceSupplier;
 import common.business.search.SortType;
 import common.solutions.dataclasses.Pair;
-import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
-import country.domain.Country;
+import storage.SimpleSequenceGenerator;
+import country.domain.BaseCountry;
+import country.domain.CountryWithColdClimate;
+import country.importcountries.implementation.ImportCountries;
 import country.search.CountrySearchCondition;
 import country.service.CountryService;
 import order.service.OrderService;
 import storage.Storage;
+import storage.initiator.StorageCreator;
 import user.domain.StandardUser;
 import user.service.UserService;
-import country.domain.ClimateType;
 
 import java.util.LinkedList;
 import java.util.List;
 
 // https://github.com/DmitryYusupov/javacore/blob/master/src/ru/yusdm/javacore
+// https://github.com/EricCartman598/Travel/tree/master/src
 
 public class TourismDemo {
 
@@ -32,11 +35,7 @@ public class TourismDemo {
         private CityService cityService = ServiceSupplier.getInstance().getCityService();
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
 
-
-        SimpleSequenceGenerator idGenerator = new SimpleSequenceGenerator();
-
-
-        private Storage storage = new Storage();
+        private StorageCreator storage = new StorageCreator(countryService);
 
         private void addUsers() {
             String[] usersAsCsv = new String[]{
@@ -48,7 +47,7 @@ public class TourismDemo {
             };
 
             Integer id = 0;
-            //userService.setSequenceGenerator(idGenerator); // ???
+
             for (String csvUser : usersAsCsv) {
                 String[] userAttrs = csvUser.split("\\|");
 
@@ -109,7 +108,7 @@ public class TourismDemo {
             String[] attrs = countryCsv.split("\\|");
             int attrIndex = -1;
 
-            Country country = new Country(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
+            BaseCountry country = new CountryWithColdClimate(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
             country.setCities(new LinkedList<>());
 
             //cityService.setSequenceGenerator(idGenerator);
@@ -133,6 +132,16 @@ public class TourismDemo {
             addCountriesWithCities();
         }
 
+        public void fillStorageFromFile(String file) {
+            addUsers();
+            ImportCountries.addCountriesWithCitiesFromFile(file);
+        }
+
+        public void fillStorageFromXml(String file) throws Exception{
+            addUsers();
+            storage.fillStorageWithCountriesAndCities(file, StorageCreator.DataSourceType.XML_FILE, StorageCreator.ParserType.SAX);
+        }
+
         public void printUsers() {
             userService.printAll();
         }
@@ -149,10 +158,10 @@ public class TourismDemo {
             CountrySearchCondition countrySearchCondition = new CountrySearchCondition();
             countrySearchCondition.setLanguages("English");
             countrySearchCondition.setSortType(SortType.ASC);
-            List<Country> searchResult = countryService.search(countrySearchCondition);
+            List<BaseCountry> searchResult = countryService.search(countrySearchCondition);
 
             System.out.println("-----------------------Search result------------------------");
-            for (Country country : searchResult) {
+            for (BaseCountry country : searchResult) {
                 System.out.println(country);
             }
             userService.add(new StandardUser("Amy", "Lee"));
@@ -164,19 +173,41 @@ public class TourismDemo {
         public static void main(String[] args) {
 
 
+
             Application application = new Application();
+
+            /*
             application.fillStorage();
 
-            System.out.println("--------Users------------");
+            System.out.println("\n--------Users------------\n");
             application.printUsers();
 
-            System.out.println("--------Countries------------");
+            System.out.println("\n--------Countries------------\n");
             application.printCountries();
 
             application.deleteUsers();
             System.out.println();
 
             ClimateType cT = ClimateType.POLAR;
+            */
+
+            System.out.println("\n--------Test input from file------------\n");
+
+            String file = "./InputData/countriesWithCities.xml";
+            try{
+                application.fillStorageFromXml(file);
+            } catch (Exception e){
+                System.out.println("SAX exception");
+            }
+
+            System.out.println("\n--------Users------------\n");
+            application.printUsers();
+
+            System.out.println("\n--------Countries------------\n");
+            application.printCountries();
+
+            application.deleteUsers();
+            System.out.println();
 
     }
 }

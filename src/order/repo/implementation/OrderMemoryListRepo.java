@@ -2,7 +2,7 @@ package order.repo.implementation;
 
 import city.domain.City;
 import common.business.search.SortType;
-import country.domain.Country;
+import country.domain.BaseCountry;
 import order.domain.Order;
 import order.repo.OrderRepo;
 import order.search.OrderSearchCondition;
@@ -74,7 +74,7 @@ public class OrderMemoryListRepo implements OrderRepo {
                     }
 
                     if (searchByCountry) {
-                        for (Country country: order.getCountries()){
+                        for (BaseCountry country: order.getCountries()){
                             if (searchCondition.getCountry().equals(country)) buf = true;
                         }
                         found = found && buf;

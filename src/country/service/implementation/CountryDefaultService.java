@@ -2,12 +2,11 @@ package country.service.implementation;
 
 import city.domain.City;
 import city.repo.CityRepo;
-import common.solutions.sequencegenerator.SequenceGenerator;
-import country.domain.Country;
+import country.domain.BaseCountry;
 import country.repo.CountryRepo;
 import country.search.CountrySearchCondition;
 import country.service.CountryService;
-import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
+import storage.SimpleSequenceGenerator;
 
 import java.util.List;
 
@@ -18,7 +17,6 @@ public class CountryDefaultService implements CountryService{
 
     private final CountryRepo countryRepo;
     private final CityRepo cityRepo;
-    private SequenceGenerator sequenceGenerator;
     /*
     @Override
     public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
@@ -32,7 +30,7 @@ public class CountryDefaultService implements CountryService{
     }
 
     @Override
-    public void add(Country country) {
+    public void add(BaseCountry country) {
         if (country != null) {
             country.setID(SimpleSequenceGenerator.getNextID());
             countryRepo.add(country);
@@ -48,7 +46,7 @@ public class CountryDefaultService implements CountryService{
     }
 
     @Override
-    public Country findByID(Integer id) {
+    public BaseCountry findByID(Integer id) {
         if (id != null) {
             return countryRepo.findByID(id);
         } else {
@@ -57,7 +55,7 @@ public class CountryDefaultService implements CountryService{
     }
 
     @Override
-    public void delete(Country country) {
+    public void delete(BaseCountry country) {
         if (country.getID() != null) {
             this.deleteByID(country.getID());
         }
@@ -77,12 +75,12 @@ public class CountryDefaultService implements CountryService{
 
 
     @Override
-    public List<Country> search(CountrySearchCondition searchCondition) {
+    public List<BaseCountry> search(CountrySearchCondition searchCondition) {
         return countryRepo.search(searchCondition);
     }
 
     @Override
-    public void update(Country country) {
+    public void update(BaseCountry country) {
         countryRepo.update(country);
     }
 }

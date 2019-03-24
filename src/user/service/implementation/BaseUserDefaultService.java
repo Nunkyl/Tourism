@@ -1,12 +1,11 @@
 package user.service.implementation;
 
 
-import common.solutions.sequencegenerator.SequenceGenerator;
 import user.domain.BaseUser;
 import user.repo.UserRepo;
 import user.search.BaseUserSearchCondition;
 import user.service.UserService;
-import common.solutions.sequencegenerator.implementation.SimpleSequenceGenerator;
+import storage.SimpleSequenceGenerator;
 
 import java.util.List;
 
