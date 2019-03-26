@@ -66,7 +66,7 @@ public class Order extends BaseDomain {
     private String citiesToString(){
         StringBuilder output = new StringBuilder();
         for (City city : cities) {
-            output.append(city.getName()).append("\n");
+            output.append(city.getName()).append(" ");
         }
         return output.toString();
     }
@@ -74,7 +74,7 @@ public class Order extends BaseDomain {
     private String countriesToString(){
         StringBuilder output = new StringBuilder();
         for (BaseCountry country : countries) {
-            output.append(country.getName()).append("\n");
+            output.append(country.getName()).append(" ");
         }
         return output.toString();
     }
@@ -82,11 +82,11 @@ public class Order extends BaseDomain {
     @Override
     public String toString() {
         return "Order{" +
-                ", ID=" + ID +
+                "ID=" + ID +
                 ", price=" + price +
-                ", user=" + user +
-                ", countriesInStorage=" + countriesToString() +
-                ", citiesInStorage=" + citiesToString() +
+                ", user=" + user.getFirstName() + " " + user.getLastName() +
+                ", countries=" + countriesToString() +
+                ", cities=" + citiesToString() +
                 '}';
     }
 }

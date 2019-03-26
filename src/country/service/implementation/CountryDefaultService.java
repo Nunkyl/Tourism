@@ -2,6 +2,7 @@ package country.service.implementation;
 
 import city.domain.City;
 import city.repo.CityRepo;
+import city.service.CityService;
 import country.domain.BaseCountry;
 import country.repo.CountryRepo;
 import country.search.CountrySearchCondition;
@@ -16,7 +17,7 @@ import java.util.List;
 public class CountryDefaultService implements CountryService{
 
     private final CountryRepo countryRepo;
-    private final CityRepo cityRepo;
+    private final CityService cityService;
     /*
     @Override
     public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
@@ -24,9 +25,9 @@ public class CountryDefaultService implements CountryService{
     }
     */
 
-    public CountryDefaultService(CountryRepo countryRepo, CityRepo cityRepo) {
+    public CountryDefaultService(CountryRepo countryRepo, CityService cityService) {
         this.countryRepo = countryRepo;
-        this.cityRepo = cityRepo;
+        this.cityService = cityService;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class CountryDefaultService implements CountryService{
             if (country.getCities() != null) {
                 for (City city : country.getCities()) {
                     if (city != null) {
-                        cityRepo.add(city);
+                        cityService.add(city);
                     }
                 }
             }
@@ -82,5 +83,10 @@ public class CountryDefaultService implements CountryService{
     @Override
     public void update(BaseCountry country) {
         countryRepo.update(country);
+    }
+
+    @Override
+    public List<BaseCountry> findAll() {
+        return countryRepo.findAll();
     }
 }

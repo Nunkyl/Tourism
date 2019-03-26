@@ -1,6 +1,7 @@
 package common.solutions.service;
 
-import common.solutions.sequencegenerator.SequenceGenerator;
+
+import java.util.List;
 
 /**
  * Created by eliza on 26.02.19.
@@ -19,6 +20,6 @@ public interface BaseService <T, ID> {
 
     void printAll();
 
-    //void setSequenceGenerator(SequenceGenerator sequenceGenerator);
+    List<T> findAll();
 }
 

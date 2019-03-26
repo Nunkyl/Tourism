@@ -2,22 +2,27 @@ import city.domain.City;
 import city.service.CityService;
 import common.business.application.StorageType;
 import common.business.application.servicefactory.ServiceSupplier;
+import common.business.search.SortDirection;
 import common.business.search.SortType;
 import common.solutions.dataclasses.Pair;
-import storage.SimpleSequenceGenerator;
+import country.domain.ClimateType;
 import country.domain.BaseCountry;
 import country.domain.CountryWithColdClimate;
-import country.importcountries.implementation.ImportCountries;
 import country.search.CountrySearchCondition;
 import country.service.CountryService;
+import order.domain.Order;
+import order.search.OrderSearchCondition;
+import order.search.OrderSortField;
 import order.service.OrderService;
-import storage.Storage;
 import storage.initiator.StorageCreator;
+import user.domain.BaseUser;
 import user.domain.StandardUser;
 import user.service.UserService;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static common.solutions.utils.RandomUtils.getRandomInt;
 
 // https://github.com/DmitryYusupov/javacore/blob/master/src/ru/yusdm/javacore
 // https://github.com/EricCartman598/Travel/tree/master/src
@@ -109,10 +114,7 @@ public class TourismDemo {
             int attrIndex = -1;
 
             BaseCountry country = new CountryWithColdClimate(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
-            country.setCities(new LinkedList<>());
-
-            //cityService.setSequenceGenerator(idGenerator);
-            //countryService.setSequenceGenerator(idGenerator);
+            country.setCities(new LinkedList<City>());
 
             for (int i = 0; i < citiesCsv.length; i++) {
                 attrIndex = -1;
@@ -127,14 +129,66 @@ public class TourismDemo {
             countryService.add(country);
         }
 
+        private void addOrders() {
+            List<BaseCountry> countries = countryService.findAll();
+            List<BaseUser> users = userService.findAll();
+
+            List<Order> orders = new LinkedList<>();
+            int i = 0;
+            for (BaseUser user : users) {
+                i++;
+                orders.add(prepareOrderForUser(user, countries));
+
+                if (i % 2 == 0) {
+                    orders.add(prepareOrderForUser(user, countries));
+                }
+            }
+
+            for (Order order : orders) {
+                orderService.add(order);
+
+                for (BaseCountry country: order.getCountries()){
+                    if (country.getOrders() == null) {
+                        country.setOrders(new LinkedList<Order>());
+                    }
+                        country.getOrders().add(order);
+                }
+                for (City city: order.getCities()){
+                    if (city.getOrders() == null) {
+                        city.setOrders(new LinkedList<Order>());
+                    }
+                    city.getOrders().add(order);
+                }
+                if (order.getUser().getOrders() == null) {
+                    order.getUser().setOrders(new LinkedList<Order>());
+                }
+                order.getUser().getOrders().add(order);
+            }
+        }
+
+        private Order prepareOrderForUser(BaseUser user, List<BaseCountry> countries) {
+            Order order = new Order();
+            order.setUser(user);
+            BaseCountry country = countries.get(getRandomInt(0, countries.size() - 1));
+            order.setCountries(new LinkedList<BaseCountry>());
+            order.getCountries().add(country);
+            order.setCities(new LinkedList<City>());
+            order.getCities().add(country.getCities().get(getRandomInt(0, country.getCities().size() - 1))  );
+            order.setPrice(getRandomInt(1, 100000));
+
+            return order;
+        }
+
+
         public void fillStorage() {
             addUsers();
             addCountriesWithCities();
+            addOrders();
         }
 
         public void fillStorageFromFile(String file) {
             addUsers();
-            ImportCountries.addCountriesWithCitiesFromFile(file);
+            //ImportCountries.addCountriesWithCitiesFromFile(file);
         }
 
         public void fillStorageFromXml(String file) throws Exception{
@@ -150,14 +204,35 @@ public class TourismDemo {
             countryService.printAll();
         }
 
+        public void printOrders() { orderService.printAll();}
+
+        public void printCities() { cityService.printAll();}
+
+        public void searchOrders() {
+
+            System.out.println("\n\n----------Search orders by country (ASC, COMPLEX)------------\n");
+
+            OrderSearchCondition orderSearchCondition = new OrderSearchCondition();
+            orderSearchCondition.setCountry("Colombia");
+            orderSearchCondition.setSortType(SortType.COMPLEX);
+            orderSearchCondition.setSortDirection(SortDirection.ASC);
+            orderSearchCondition.setSortField(OrderSortField.CITY);
+
+            List<Order> searchResult = orderService.search(orderSearchCondition);
+
+            for (Order order : searchResult) {
+                System.out.println(order);
+            }
+        }
+
         public void deleteUsers() {
 
             userService.deleteByID(1);
 
-            System.out.println("----------Search countries by languages------------");
+            System.out.println("\n----------Search countries by languages------------\n");
             CountrySearchCondition countrySearchCondition = new CountrySearchCondition();
             countrySearchCondition.setLanguages("English");
-            countrySearchCondition.setSortType(SortType.ASC);
+            //countrySearchCondition.setSortType(SortDirection.ASC);
             List<BaseCountry> searchResult = countryService.search(countrySearchCondition);
 
             System.out.println("-----------------------Search result------------------------");
@@ -176,7 +251,7 @@ public class TourismDemo {
 
             Application application = new Application();
 
-            /*
+
             application.fillStorage();
 
             System.out.println("\n--------Users------------\n");
@@ -185,11 +260,20 @@ public class TourismDemo {
             System.out.println("\n--------Countries------------\n");
             application.printCountries();
 
-            application.deleteUsers();
-            System.out.println();
+            System.out.println("\n--------Orders------------\n");
+            application.printOrders();
+
+            System.out.println("\n--------Cities------------\n");
+            application.printCities();
+
+            application.searchOrders();
+
+            //application.deleteUsers();
+            //System.out.println();
 
             ClimateType cT = ClimateType.POLAR;
-            */
+
+            /*
 
             System.out.println("\n--------Test input from file------------\n");
 
@@ -209,5 +293,6 @@ public class TourismDemo {
             application.deleteUsers();
             System.out.println();
 
+            */
     }
 }

@@ -51,7 +51,7 @@ public abstract class BaseUser extends BaseDomain {
         StringBuilder output = new StringBuilder();
         if (orders != null) {
             for (Order order : orders) {
-                output.append(order.toString()).append("\n");
+                output.append(order.getID().toString()).append(" ");
             }
         } else return "";
         return output.toString();

@@ -1,6 +1,6 @@
 package country.repo.implementation;
 
-import common.business.search.SortType;
+import common.business.search.SortDirection;
 import country.domain.BaseCountry;
 import country.repo.CountryRepo;
 import country.search.CountrySearchCondition;
@@ -63,6 +63,8 @@ public class CountryMemoryListRepo implements CountryRepo {
     @Override
     public List<BaseCountry> search(CountrySearchCondition searchCondition) {
 
+
+        /*
         List<BaseCountry> answer = new LinkedList<>();
 
         if (searchCondition.getID() != null) {
@@ -98,13 +100,17 @@ public class CountryMemoryListRepo implements CountryRepo {
             }
         }
 
-        if (searchCondition.getSortType() == SortType.ASC)
+        if (searchCondition.getSortType() == SortDirection.ASC)
             Collections.sort(answer, new compareCountry());
 
-        if (searchCondition.getSortType() == SortType.DECS)
+        if (searchCondition.getSortType() == SortDirection.DECS)
             Collections.sort(answer, Collections.reverseOrder(new compareCountry()));
 
         return answer; // Check this
+
+        */
+
+        return null;
     }
 
     private class compareCountry implements Comparator<BaseCountry> {
@@ -132,5 +138,10 @@ public class CountryMemoryListRepo implements CountryRepo {
     @Override
     public void update(BaseCountry country) {
         // Fill in later
+    }
+
+    @Override
+    public List<BaseCountry> findAll() {
+        return countriesInStorage;
     }
 }

@@ -1,9 +1,9 @@
 package common.business.search;
 
 /**
- * Created by eliza on 05.03.19.
+ * Created by EL on 24.03.19.
  */
 public enum SortType {
-    ASC,
-    DECS
+    SIMPLE,
+    COMPLEX
 }

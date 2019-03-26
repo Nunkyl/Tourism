@@ -20,7 +20,7 @@ public class MemoryListServiceFactory implements ServiceFactory {
 
     @Override
     public CountryService getCountryService() {
-        return new CountryDefaultService(new CountryMemoryListRepo(), new CityMemoryListRepo());
+        return new CountryDefaultService(new CountryMemoryListRepo(), new CityDefaultService(new CityMemoryListRepo()));
     }
 
     @Override

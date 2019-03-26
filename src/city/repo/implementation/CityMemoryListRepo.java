@@ -3,8 +3,7 @@ package city.repo.implementation;
 import city.domain.City;
 import city.repo.CityRepo;
 import city.search.CitySearchCondition;
-import common.business.search.SortType;
-import order.domain.Order;
+import common.business.search.SortDirection;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import static common.solutions.utils.StringUtils.isNotBlank;
 import static storage.Storage.citiesInStorage;
-import static storage.Storage.ordersInStorage;
 
 
 /**
@@ -38,6 +36,7 @@ public class CityMemoryListRepo implements CityRepo{
     @Override
     public List<City> search(CitySearchCondition searchCondition) {
 
+        /*
         List<City> answer = new LinkedList<>();
 
         if (searchCondition.getID() != null) {
@@ -66,13 +65,15 @@ public class CityMemoryListRepo implements CityRepo{
             }
         }
 
-        if (searchCondition.getSortType() == SortType.ASC)
+        if (searchCondition.getSortType() == SortDirection.ASC)
             Collections.sort(answer, new compareCity());
 
-        if (searchCondition.getSortType() == SortType.DECS)
+        if (searchCondition.getSortType() == SortDirection.DECS)
             Collections.sort(answer, Collections.reverseOrder(new compareCity()));
 
         return answer; // Check this
+        */
+        return null;
     }
 
     private class compareCity implements Comparator<City> {
@@ -127,5 +128,10 @@ public class CityMemoryListRepo implements CityRepo{
     @Override
     public void update(City city) {
         // Implement later
+    }
+
+    @Override
+    public List<City> findAll() {
+        return citiesInStorage;
     }
 }

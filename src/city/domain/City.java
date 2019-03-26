@@ -71,7 +71,7 @@ public class City extends BaseDomain{
         StringBuilder output = new StringBuilder();
         if (orders != null) {
             for (Order order : orders) {
-                output.append(order.getID().toString()).append("\n"); // This needs to get fixed later
+                output.append(order.getID().toString()).append(" ");
             }
         } else return "";
         return output.toString();
@@ -84,7 +84,7 @@ public class City extends BaseDomain{
                 ", name='" + name + '\'' +
                 ", population=" + population +
                 ", isCapital=" + isCapital +
-                ", country=" + country +
+                ", country=" + country.getName() +
                 ", ordersInStorage=" + ordersToString() +
                 '}';
     }

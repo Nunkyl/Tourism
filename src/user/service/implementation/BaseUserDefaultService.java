@@ -1,6 +1,7 @@
 package user.service.implementation;
 
 
+import order.domain.Order;
 import user.domain.BaseUser;
 import user.repo.UserRepo;
 import user.search.BaseUserSearchCondition;
@@ -73,5 +74,10 @@ public class BaseUserDefaultService implements UserService {
     @Override
     public void update(BaseUser user) {
         userRepo.update(user);
+    }
+
+    @Override
+    public List<BaseUser> findAll() {
+        return userRepo.findAll();
     }
 }

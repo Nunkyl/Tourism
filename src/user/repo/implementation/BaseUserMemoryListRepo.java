@@ -65,6 +65,7 @@ public class BaseUserMemoryListRepo implements UserRepo {
     @Override
     public List<BaseUser> search(BaseUserSearchCondition searchCondition) {
 
+        /*
         List<BaseUser> answer = new LinkedList<>();
 
         if (searchCondition.getID() != null) {
@@ -93,6 +94,8 @@ public class BaseUserMemoryListRepo implements UserRepo {
             }
         }
         return answer; // Check this
+        */
+        return null;
     }
 
     // Would it be better to return BaseUser or VIPUser?
@@ -114,5 +117,10 @@ public class BaseUserMemoryListRepo implements UserRepo {
     @Override
     public void update (BaseUser user){
         // Fill in later
+    }
+
+    @Override
+    public List<BaseUser> findAll() {
+        return usersInStorage;
     }
 }

@@ -1,5 +1,7 @@
 package common.solutions.repo;
 
+import java.util.List;
+
 /**
  * Created by eliza on 26.02.19.
  */
@@ -14,4 +16,6 @@ public interface BaseRepo<T, ID> {
     void deleteByID(ID ID);
 
     void printAll();
+
+    List<T> findAll();
 }

@@ -1,6 +1,7 @@
 package country.service;
 
 import city.repo.implementation.CityMemoryListRepo;
+import city.service.implementation.CityDefaultService;
 import common.business.application.StorageType;
 import country.repo.implementation.CountryMemoryListRepo;
 import country.service.implementation.CountryDefaultService;
@@ -18,7 +19,8 @@ public final class CountryServiceCreator {
         switch (storageType) {
 
             case LINKED_LIST:
-                return new CountryDefaultService(new CountryMemoryListRepo(), new CityMemoryListRepo());
+                return new CountryDefaultService(new CountryMemoryListRepo(),
+                        new CityDefaultService(new CityMemoryListRepo()));
 
             case DATABASE:{
                 return null;

@@ -72,4 +72,9 @@ public class CityDefaultService implements CityService {
     public void update(City city) {
         cityRepo.update(city);
     }
+
+    @Override
+    public List<City> findAll() {
+        return cityRepo.findAll();
+    }
 }

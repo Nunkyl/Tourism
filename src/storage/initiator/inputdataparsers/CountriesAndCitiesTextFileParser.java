@@ -40,7 +40,7 @@ public class CountriesAndCitiesTextFileParser implements FileParser<List<BaseCou
                     country = new CountryWithColdClimate(attrs[0].trim(), attrs[1].trim());
                 }
 
-                country.setCities(new LinkedList<>());
+                country.setCities(new LinkedList<City>());
                 int numberOfCities = Integer.parseInt(attrs[2].trim());
 
                 for (int i = 0; i < numberOfCities; i++) {

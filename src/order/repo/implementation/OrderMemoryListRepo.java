@@ -1,16 +1,12 @@
 package order.repo.implementation;
 
 import city.domain.City;
-import common.business.search.SortType;
 import country.domain.BaseCountry;
 import order.domain.Order;
 import order.repo.OrderRepo;
 import order.search.OrderSearchCondition;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static storage.Storage.ordersInStorage;
 
@@ -18,6 +14,8 @@ import static storage.Storage.ordersInStorage;
  * Created by eliza on 26.02.19.
  */
 public class OrderMemoryListRepo implements OrderRepo {
+
+    private OrderSortingComponent orderingComponent = new OrderSortingComponent();
 
     @Override
     public void printAll() {
@@ -37,7 +35,6 @@ public class OrderMemoryListRepo implements OrderRepo {
         }
     }
 
-
     @Override
     public void add(Order order) {
         ordersInStorage.add(order);
@@ -52,6 +49,60 @@ public class OrderMemoryListRepo implements OrderRepo {
         return null;
     }
 
+    @Override
+    public List<Order> search(OrderSearchCondition searchCondition) {
+        if (searchCondition.getID() != null) {
+            return Collections.singletonList(findByID(searchCondition.getID())); // returns an immutable list containing only the specified object
+        } else {
+            List<Order> result = doSearch(searchCondition);
+
+            boolean needOrdering = !result.isEmpty() && searchCondition.needOrdering();
+            if (needOrdering) {
+                orderingComponent.applyOrdering(result, searchCondition);
+            }
+            return result;
+        }
+    }
+
+    private List<Order> doSearch(OrderSearchCondition searchCondition) {
+        List<Order> result = new LinkedList<>();
+        for (Order order : ordersInStorage) { // from Storage
+            if (order != null) {
+                boolean found = true;
+
+                if (searchCondition.searchByCountry()) {
+                    for (BaseCountry country: order.getCountries()){
+                        if (searchCondition.getCountry().equals(country.getName())){
+                            found = true;
+                            break;
+                        } else found = false;
+                    }
+                }
+
+                if (found && searchCondition.searchByCity()) {
+                    for (City city: order.getCities()){
+                        if (searchCondition.getCity().equals(city.getName())){
+                            found = true;
+                            break;
+                        } else found = false;
+                    }
+                }
+
+                if (found && searchCondition.searchByUser()) {
+                    found = searchCondition.getUser().equals(order.getUser().getLastName() + " "
+                            + order.getUser().getFirstName());
+                }
+
+                if (found) {
+                    result.add(order);
+                }
+            }
+        }
+        return result;
+    }
+
+    /*
+    Old version of search
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
         List<Order> answer = new LinkedList<>();
@@ -95,14 +146,15 @@ public class OrderMemoryListRepo implements OrderRepo {
             }
         }
 
-        if (searchCondition.getSortType() == SortType.ASC)
+        if (searchCondition.getSortType() == SortDirection.ASC)
             Collections.sort(answer, new compareOrder());
 
-        if (searchCondition.getSortType() == SortType.DECS)
+        if (searchCondition.getSortType() == SortDirection.DECS)
             Collections.sort(answer, Collections.reverseOrder(new compareOrder()));
 
         return answer; // Check this
     }
+     */
 
     private class compareOrder implements Comparator<Order> {
 
@@ -138,5 +190,10 @@ public class OrderMemoryListRepo implements OrderRepo {
     @Override
     public void update(Order order) {
         // Fill in later
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return ordersInStorage;
     }
 }

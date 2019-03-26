@@ -1,40 +1,62 @@
 package order.search;
 
-import city.domain.City;
 import common.business.search.BaseSearchCondition;
-import country.domain.BaseCountry;
-import user.domain.BaseUser;
 
 /**
  * Created by eliza on 26.02.19.
  */
-public class OrderSearchCondition extends BaseSearchCondition {
+public class OrderSearchCondition extends BaseSearchCondition<Integer> {
 
-    private BaseUser user;
-    private BaseCountry country;
-    private City city;
+    private String user;
+    private String country;
+    private String city;
+    private OrderSortField sortField;
 
-    public void setUser(BaseUser user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
-    public void setCountry(BaseCountry country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public void setCity(City city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public BaseUser getUser() {
+    public void setSortField(OrderSortField sortByField) {
+        this. sortField = sortByField;
+    }
+
+    public String getUser() {
         return user;
     }
 
-    public BaseCountry getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public City getCity() {
+    public String getCity() {
         return city;
+    }
+
+    public OrderSortField getSortByField() {
+        return  sortField;
+    }
+
+    public boolean searchByUser() {
+        return user != null;
+    }
+
+    public boolean searchByCountry() {
+        return country != null;
+    }
+
+    public boolean searchByCity() {
+        return city != null;
+    }
+
+    public boolean needOrdering() {
+        return super.needOrdering() &&  sortField != null;
     }
 }

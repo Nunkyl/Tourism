@@ -14,14 +14,6 @@ import java.util.List;
 public class OrderDefaultService implements OrderService {
 
     private final OrderRepo orderRepo;
-    private SimpleSequenceGenerator sequenceGenerator;
-
-    /*
-    @Override
-    public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
-        this.sequenceGenerator = sequenceGenerator;
-    }
-    */
 
     public OrderDefaultService(OrderRepo orderRepo) {
         this.orderRepo = orderRepo;
@@ -71,5 +63,10 @@ public class OrderDefaultService implements OrderService {
     @Override
     public void update(Order order) {
         orderRepo.update(order);
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepo.findAll();
     }
 }
