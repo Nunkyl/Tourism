@@ -6,10 +6,9 @@ package common.business.search;
 public abstract class BaseSearchCondition <ID> {
 
     protected ID ID;
-
     protected SortDirection sortDirection;
-
     protected SortType sortType;
+    protected Paginator paginator;
 
     public void setID(ID ID) {
         this.ID = ID;
@@ -21,6 +20,10 @@ public abstract class BaseSearchCondition <ID> {
 
     public void setSortType(SortType sortType) {
         this.sortType = sortType;
+    }
+
+    public void setPaginator(Paginator paginator) {
+        this.paginator = paginator;
     }
 
     public ID getID() {
@@ -35,7 +38,15 @@ public abstract class BaseSearchCondition <ID> {
         return sortType;
     }
 
-    public boolean needOrdering() {
+    public Paginator getPaginator() {
+        return paginator;
+    }
+
+    public boolean needSorting() {
         return sortDirection != null && sortType != null;
+    }
+
+    public boolean needPaginator() {
+        return paginator != null && paginator.getLimit() > 0 && paginator.getOffset() >= 0;
     }
 }

@@ -56,7 +56,7 @@ public class OrderSearchCondition extends BaseSearchCondition<Integer> {
         return city != null;
     }
 
-    public boolean needOrdering() {
-        return super.needOrdering() &&  sortField != null;
+    public boolean needSorting() {
+        return super.needSorting() &&  sortField != null;
     }
 }

@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface CountryService extends BaseService<BaseCountry, Integer> {
 
-    List<BaseCountry> search(CountrySearchCondition searchCondition);
+    List<? extends BaseCountry> search(CountrySearchCondition searchCondition);
 }

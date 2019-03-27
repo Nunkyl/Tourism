@@ -26,7 +26,7 @@ public class CountryWithColdClimate extends BaseCountry {
         this.telephoneCode = telephoneCode;
     }
 
-    public boolean isPolarNight() {
+    public boolean getPolarNight() {
         return polarNight;
     }
 

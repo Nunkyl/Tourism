@@ -9,7 +9,8 @@ import java.util.Map;
 public enum ClimateCategory {
 
     COLD,
-    HOT;
+    HOT,
+    NOT_SET;
 
 
     private static Map<String, ClimateCategory> climateMap;

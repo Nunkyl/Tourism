@@ -84,7 +84,7 @@ public class City extends BaseDomain{
                 ", name='" + name + '\'' +
                 ", population=" + population +
                 ", isCapital=" + isCapital +
-                ", country=" + country.getName() +
+                ", country=" + country.getName().trim() +
                 ", ordersInStorage=" + ordersToString() +
                 '}';
     }

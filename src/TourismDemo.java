@@ -2,13 +2,16 @@ import city.domain.City;
 import city.service.CityService;
 import common.business.application.StorageType;
 import common.business.application.servicefactory.ServiceSupplier;
+import common.business.search.Paginator;
 import common.business.search.SortDirection;
 import common.business.search.SortType;
 import common.solutions.dataclasses.Pair;
+import country.domain.ClimateCategory;
 import country.domain.ClimateType;
 import country.domain.BaseCountry;
 import country.domain.CountryWithColdClimate;
 import country.search.CountrySearchCondition;
+import country.search.CountrySortField;
 import country.service.CountryService;
 import order.domain.Order;
 import order.search.OrderSearchCondition;
@@ -181,9 +184,17 @@ public class TourismDemo {
 
 
         public void fillStorage() {
-            addUsers();
-            addCountriesWithCities();
-            addOrders();
+            String file = "./InputData/countriesWithCities.xml";
+
+            try {
+                addUsers();
+                //addCountriesWithCities();
+                fillStorageFromXml(file);
+                addOrders();
+            } catch (Exception e){
+                System.out.println("Problems with filling Storage!");
+                e.printStackTrace();
+            }
         }
 
         public void fillStorageFromFile(String file) {
@@ -225,13 +236,40 @@ public class TourismDemo {
             }
         }
 
+        public void searchCountries() {
+
+            System.out.println("\n\n----------Search countries by language (ASC, COMPLEX, PAGINATOR)------------\n");
+
+            CountrySearchCondition countrySearchCondition = new CountrySearchCondition();
+            countrySearchCondition.setLanguage("English");
+            countrySearchCondition.setSortType(SortType.COMPLEX);
+            countrySearchCondition.setSortDirection(SortDirection.ASC);
+            countrySearchCondition.setSortField(CountrySortField.NAME);
+            countrySearchCondition.setDiscriminator(ClimateCategory.NOT_SET);
+            countrySearchCondition.setPaginator(new Paginator((0)));
+
+            List<? extends BaseCountry> searchResult = countryService.search(countrySearchCondition);
+
+            for (BaseCountry country : searchResult) {
+                System.out.println(country);
+            }
+
+            countrySearchCondition.setPaginator(new Paginator((2)));
+            searchResult = countryService.search(countrySearchCondition);
+            for (BaseCountry country : searchResult) {
+                System.out.println(country);
+            }
+
+        }
+
+        /*
         public void deleteUsers() {
 
             userService.deleteByID(1);
 
             System.out.println("\n----------Search countries by languages------------\n");
             CountrySearchCondition countrySearchCondition = new CountrySearchCondition();
-            countrySearchCondition.setLanguages("English");
+            //countrySearchCondition.setLanguages("English");
             //countrySearchCondition.setSortType(SortDirection.ASC);
             List<BaseCountry> searchResult = countryService.search(countrySearchCondition);
 
@@ -242,6 +280,7 @@ public class TourismDemo {
             userService.add(new StandardUser("Amy", "Lee"));
             //userService.deleteByID(33);
         }
+        */
     }
 
 
@@ -267,6 +306,8 @@ public class TourismDemo {
             application.printCities();
 
             application.searchOrders();
+
+            application.searchCountries();
 
             //application.deleteUsers();
             //System.out.println();

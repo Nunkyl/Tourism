@@ -69,6 +69,7 @@ public class CountriesAndCitiesSaxHandler extends DefaultHandler {
 
             case CITY_PATH: {
                 cities.add(new City());
+                getLast(cities).setCountry(getLast(countries));
                 break;
             }
         }
@@ -80,17 +81,17 @@ public class CountriesAndCitiesSaxHandler extends DefaultHandler {
 
         switch (stackAsStringPath()) {
             case COUNTRY_NAME_PATH: {
-                getLast(countries).setName(dataAsStr);
+                getLast(countries).setName(dataAsStr.trim());
                 break;
             }
 
             case COUNTRY_LANGUAGES_PATH: {
-                getLast(countries).setLanguages(dataAsStr);
+                getLast(countries).setLanguages(dataAsStr.trim());
                 break;
             }
 
             case CITY_NAME_PATH: {
-                getLast(cities).setName(dataAsStr);
+                getLast(cities).setName(dataAsStr.trim());
                 break;
             }
 

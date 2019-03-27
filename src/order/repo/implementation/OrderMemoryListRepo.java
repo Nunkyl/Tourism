@@ -56,7 +56,7 @@ public class OrderMemoryListRepo implements OrderRepo {
         } else {
             List<Order> result = doSearch(searchCondition);
 
-            boolean needOrdering = !result.isEmpty() && searchCondition.needOrdering();
+            boolean needOrdering = !result.isEmpty() && searchCondition.needSorting();
             if (needOrdering) {
                 orderingComponent.applyOrdering(result, searchCondition);
             }
@@ -154,7 +154,7 @@ public class OrderMemoryListRepo implements OrderRepo {
 
         return answer; // Check this
     }
-     */
+
 
     private class compareOrder implements Comparator<Order> {
 
@@ -172,6 +172,8 @@ public class OrderMemoryListRepo implements OrderRepo {
             //} else return o1.getID().compareTo(o2.getID());
         }
     }
+
+    */
 
     private void deleteOrderByIndex(int index) {
         ordersInStorage.remove(index);
