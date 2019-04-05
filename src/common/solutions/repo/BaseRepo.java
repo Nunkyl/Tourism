@@ -1,5 +1,6 @@
 package common.solutions.repo;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -8,6 +9,8 @@ import java.util.List;
 public interface BaseRepo<T, ID> {
 
     void add(T entity);
+
+    void add(Collection<T> entity);
 
     void update(T entity);
 

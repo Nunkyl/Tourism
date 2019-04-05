@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface CityRepo extends BaseRepo<City, Integer> {
 
-    List<City> search(CitySearchCondition searchCondition);
+    List<? extends City> search(CitySearchCondition searchCondition);
 }
 

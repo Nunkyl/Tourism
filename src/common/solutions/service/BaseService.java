@@ -1,6 +1,7 @@
 package common.solutions.service;
 
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -9,6 +10,8 @@ import java.util.List;
 public interface BaseService <T, ID> {
 
     void add(T entity);
+
+    void add(Collection<T> entity);
 
     void update(T entity);
 

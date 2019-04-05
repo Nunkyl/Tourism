@@ -1,4 +1,5 @@
 import city.domain.City;
+import city.search.CitySearchCondition;
 import city.service.CityService;
 import common.business.application.StorageType;
 import common.business.application.servicefactory.ServiceSupplier;
@@ -18,8 +19,9 @@ import order.search.OrderSearchCondition;
 import order.search.OrderSortField;
 import order.service.OrderService;
 import storage.initiator.StorageCreator;
-import user.domain.BaseUser;
-import user.domain.StandardUser;
+import user.domain.*;
+import user.search.BaseUserSearchCondition;
+import user.search.VIPUserSearchCondition;
 import user.service.UserService;
 
 import java.util.LinkedList;
@@ -54,6 +56,25 @@ public class TourismDemo {
                     "Perl     | Laslow",
             };
 
+
+            String[] userAttrs = usersAsCsv[0].split("\\|");
+            StandardUser mainGuardian = new StandardUser(userAttrs[0].trim(), userAttrs[1].trim(),
+                    UserCategory.STANDARD, "70 127346");
+            userService.add(mainGuardian);
+
+            userAttrs = usersAsCsv[1].split("\\|");
+            userService.add(new ChildUser(userAttrs[0].trim(), userAttrs[1].trim(), UserCategory.CHILD, mainGuardian));
+
+            userAttrs = usersAsCsv[2].split("\\|");
+            userService.add(new ChildUser(userAttrs[0].trim(), userAttrs[1].trim(), UserCategory.CHILD, mainGuardian));
+
+            userAttrs = usersAsCsv[3].split("\\|");
+            userService.add(new VIPUser(userAttrs[0].trim(), userAttrs[1].trim(), UserCategory.VIP, "90 765234"));
+
+            userAttrs = usersAsCsv[4].split("\\|");
+            userService.add(new VIPUser(userAttrs[0].trim(), userAttrs[1].trim(), UserCategory.VIP, "50 284901"));
+
+            /*
             Integer id = 0;
 
             for (String csvUser : usersAsCsv) {
@@ -63,6 +84,7 @@ public class TourismDemo {
                 userService.add(new StandardUser(userAttrs[++attrIndex].trim(), userAttrs[++attrIndex].trim()));
                                                  // firstName, lastName
             }
+            */
         }
 
         private void addCountriesWithCities() {
@@ -107,17 +129,20 @@ public class TourismDemo {
                     )
             };
 
+            List<BaseCountry> result = new LinkedList<>();
             for (Pair countryCityData : countriesWithCities) {
-                addCountry(countryCityData.getLeft(), countryCityData.getRight());
+                //countryService.add(createCountry(countryCityData.getLeft(), countryCityData.getRight()));
+                result.add(createCountry(countryCityData.getLeft(), countryCityData.getRight()));
             }
+            countryService.add(result);
         }
 
-        private void addCountry(String countryCsv, String[] citiesCsv) {
+        private BaseCountry createCountry(String countryCsv, String[] citiesCsv) {
             String[] attrs = countryCsv.split("\\|");
             int attrIndex = -1;
 
             BaseCountry country = new CountryWithColdClimate(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
-            country.setCities(new LinkedList<City>());
+            country.setCities(new LinkedList<>());
 
             for (int i = 0; i < citiesCsv.length; i++) {
                 attrIndex = -1;
@@ -129,7 +154,7 @@ public class TourismDemo {
                 country.getCities().add(city);
             }
 
-            countryService.add(country);
+            return country;
         }
 
         private void addOrders() {
@@ -152,18 +177,18 @@ public class TourismDemo {
 
                 for (BaseCountry country: order.getCountries()){
                     if (country.getOrders() == null) {
-                        country.setOrders(new LinkedList<Order>());
+                        country.setOrders(new LinkedList<>());
                     }
                         country.getOrders().add(order);
                 }
                 for (City city: order.getCities()){
                     if (city.getOrders() == null) {
-                        city.setOrders(new LinkedList<Order>());
+                        city.setOrders(new LinkedList<>());
                     }
                     city.getOrders().add(order);
                 }
                 if (order.getUser().getOrders() == null) {
-                    order.getUser().setOrders(new LinkedList<Order>());
+                    order.getUser().setOrders(new LinkedList<>());
                 }
                 order.getUser().getOrders().add(order);
             }
@@ -184,12 +209,13 @@ public class TourismDemo {
 
 
         public void fillStorage() {
-            String file = "./InputData/countriesWithCities.xml";
+            String xmlFile = "./InputData/countriesWithCities.xml";
 
             try {
                 addUsers();
-                //addCountriesWithCities();
-                fillStorageFromXml(file);
+                addCountriesWithCities();
+                //fillStorageFromXml(file);
+                //fillStorageInParallel();
                 addOrders();
             } catch (Exception e){
                 System.out.println("Problems with filling Storage!");
@@ -197,14 +223,34 @@ public class TourismDemo {
             }
         }
 
-        public void fillStorageFromFile(String file) {
-            addUsers();
-            //ImportCountries.addCountriesWithCitiesFromFile(file);
-        }
-
+        /*
         public void fillStorageFromXml(String file) throws Exception{
             addUsers();
             storage.fillStorageWithCountriesAndCities(file, StorageCreator.DataSourceType.XML_FILE, StorageCreator.ParserType.SAX);
+        }
+        */
+
+        public void fillStorageFromXmlInParallel(String[] file, StorageCreator.DataSourceType[] sT,
+                                                 StorageCreator.ParserType[] pT) throws Exception{
+            storage.fillStorageWithCountriesAndCities(file, sT, pT);
+        }
+
+        public void fillStorageInParallel(){
+
+            String[] files = {"./InputData/countriesWithCitiesPart1.xml",
+                              "./InputData/countriesWithCitiesPart2.xml"};
+            StorageCreator.DataSourceType[] sourceType = {StorageCreator.DataSourceType.XML_FILE,
+                                                          StorageCreator.DataSourceType.XML_FILE};
+
+            StorageCreator.ParserType[] parserType = {StorageCreator.ParserType.SAX,
+                                                      StorageCreator.ParserType.SAX};
+
+            try {
+                fillStorageFromXmlInParallel(files, sourceType, parserType);
+            } catch (Exception e){
+                System.out.println("fillStorageFromXmlInParallel error!");
+                e.printStackTrace();
+            }
         }
 
         public void printUsers() {
@@ -228,8 +274,9 @@ public class TourismDemo {
             orderSearchCondition.setSortType(SortType.COMPLEX);
             orderSearchCondition.setSortDirection(SortDirection.ASC);
             orderSearchCondition.setSortField(OrderSortField.CITY);
+            orderSearchCondition.setPaginator(new Paginator((0)));
 
-            List<Order> searchResult = orderService.search(orderSearchCondition);
+            List<? extends Order> searchResult = orderService.search(orderSearchCondition);
 
             for (Order order : searchResult) {
                 System.out.println(order);
@@ -260,6 +307,52 @@ public class TourismDemo {
                 System.out.println(country);
             }
 
+        }
+
+        public void searchUsers() {
+
+            System.out.println("\n\n----------Search users by full name (PAGINATOR)------------\n");
+
+            BaseUserSearchCondition userSearchCondition = new BaseUserSearchCondition();
+            userSearchCondition.setFirstName("Amy");
+            userSearchCondition.setLastName("Lee");
+            userSearchCondition.setDiscriminator(UserCategory.NOT_SET);
+            userSearchCondition.setPaginator(new Paginator((0)));
+
+            List<? extends BaseUser> searchResult = userService.search(userSearchCondition);
+
+            for (BaseUser user : searchResult) {
+                System.out.println(user);
+            }
+
+
+            System.out.println("\n\n----------Search users by passportID (PAGINATOR)------------\n");
+
+            VIPUserSearchCondition userSearchCondition2 = new VIPUserSearchCondition();
+            userSearchCondition2.setPassportID("90 765234");
+            userSearchCondition2.setDiscriminator(UserCategory.VIP);
+            userSearchCondition2.setPaginator(new Paginator((0)));
+
+            searchResult = userService.search(userSearchCondition2);
+
+            for (BaseUser user : searchResult) {
+                System.out.println(user);
+            }
+        }
+
+        public void searchCities() {
+
+            System.out.println("\n\n----------Search cities by name (PAGINATOR)------------\n");
+
+            CitySearchCondition citySearchCondition = new CitySearchCondition();
+            citySearchCondition.setCountryName("Colombia");
+            citySearchCondition.setPaginator(new Paginator((0)));
+
+            List<? extends City> searchResult = cityService.search(citySearchCondition);
+
+            for (City city : searchResult) {
+                System.out.println(city);
+            }
         }
 
         /*
@@ -308,6 +401,10 @@ public class TourismDemo {
             application.searchOrders();
 
             application.searchCountries();
+
+            application.searchUsers();
+
+            application.searchCities();
 
             //application.deleteUsers();
             //System.out.println();

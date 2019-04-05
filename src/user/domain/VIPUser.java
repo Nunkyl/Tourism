@@ -8,15 +8,14 @@ public class VIPUser extends BaseUser {
     private String passportID;
     private String nameOfPersonalAdmin;
     private String timeFrameForExtraFancyAds;
-    private int bonus = 0;
+    private Integer bonus;
 
     public VIPUser() {
     }
 
-    public VIPUser(String firstName, String lastName, String passportID, String nameOfPersonalAdmin) {
-        super(firstName, lastName);
+    public VIPUser(String firstName, String lastName, UserCategory discriminator, String passportID) {
+        super(firstName, lastName, discriminator);
         this.passportID = passportID;
-        this.nameOfPersonalAdmin = nameOfPersonalAdmin;
     }
 
     public void setPassportID(String passportID) {
@@ -43,7 +42,7 @@ public class VIPUser extends BaseUser {
         return timeFrameForExtraFancyAds;
     }
 
-    public int getBonus() {
+    public Integer getBonus() {
         return bonus;
     }
 
@@ -55,6 +54,7 @@ public class VIPUser extends BaseUser {
     public String toString() {
         return "VIPUser{" +
                 "ID='" + ID + '\'' +
+                ", discriminator='" + discriminator.name() + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", passport='" + passportID + '\'' +

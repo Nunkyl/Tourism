@@ -82,6 +82,7 @@ public class CountriesAndCitiesSaxHandler extends DefaultHandler {
         switch (stackAsStringPath()) {
             case COUNTRY_NAME_PATH: {
                 getLast(countries).setName(dataAsStr.trim());
+                //System.out.println(dataAsStr);
                 break;
             }
 

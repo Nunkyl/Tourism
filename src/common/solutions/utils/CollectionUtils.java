@@ -21,7 +21,6 @@ public final class CollectionUtils {
             return list;
         } else {
             int l = offset + limit > list.size() ? list.size() % limit : limit;
-            //int endInd = offset + l > limit ? limit : offset + l;
             return list.subList(offset, offset + l);
         }
     }

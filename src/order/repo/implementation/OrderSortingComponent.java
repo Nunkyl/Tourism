@@ -15,7 +15,7 @@ import static java.util.Collections.reverseOrder;
  */
 public class OrderSortingComponent {
 
-    public void applyOrdering(List<Order> listOfOrders, OrderSearchCondition orderSearchCondition) {
+    public void applyOrdering(List<? extends Order> listOfOrders, OrderSearchCondition orderSearchCondition) {
         Comparator<Order> orderComparator = null;
 
         OrderSortField field = orderSearchCondition.getSortByField();

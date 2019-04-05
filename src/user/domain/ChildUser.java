@@ -13,8 +13,8 @@ public class ChildUser extends BaseUser {
     public ChildUser() {
     }
 
-    public ChildUser(String firstName, String lastName, BaseUser mainGuardian) {
-        super(firstName, lastName);
+    public ChildUser(String firstName, String lastName, UserCategory discriminator, BaseUser mainGuardian) {
+        super(firstName, lastName, discriminator);
         this.mainGuardian = mainGuardian;
     }
 
@@ -54,6 +54,7 @@ public class ChildUser extends BaseUser {
     public String toString() {
         return "ChildUser{" +
                 "ID='" + ID + '\'' +
+                ", discriminator='" + discriminator.name() + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", Guardian='" + mainGuardian + '\'' +

@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface UserRepo extends BaseRepo<BaseUser, Integer>{
 
-    List<BaseUser> search(BaseUserSearchCondition searchCondition);
+    List<? extends BaseUser> search(BaseUserSearchCondition searchCondition);
 }

@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface OrderRepo extends BaseRepo<Order, Integer> {
 
-    List<Order> search(OrderSearchCondition searchCondition);
+    List<? extends Order> search(OrderSearchCondition searchCondition);
 }

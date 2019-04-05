@@ -1,0 +1,25 @@
+COLD
+England | English | 3
+London    | 8100000 | True 
+Liverpool | 470000  | False
+Bristol   | 430000  | False
+COLD
+Russia | Russian | 3
+Moscow           | 12000000 | True
+Saint-Petersburg | 5000000  | False
+Kazan            | 1200000  | False
+COLD
+Canada | English, French | 3
+Toronto   | 2700000 | True
+Montreal  | 1700000 | False
+Edmonton  | 970000  | False
+HOT
+Colombia | Spanish, English | 3
+Medellin   | 2500000 | False
+Bogota     | 8100000 | True
+Cali       | 2400000 | False
+HOT
+Australia | English | 3
+Sydney     | 4800000 | False
+Melbourne  | 4400000 | False
+Perth      | 1900000 | False

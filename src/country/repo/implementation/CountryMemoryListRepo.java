@@ -52,6 +52,11 @@ public class CountryMemoryListRepo implements CountryRepo {
     }
 
     @Override
+    public void add(Collection<BaseCountry> country) {
+        countriesInStorage.addAll(country);
+    }
+
+    @Override
     public BaseCountry findByID(Integer ID) {
         Integer userIndex = findUserIndexById(ID);
         if (userIndex != null) {

@@ -6,6 +6,7 @@ import order.search.OrderSearchCondition;
 import order.service.OrderService;
 import storage.SimpleSequenceGenerator;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -44,6 +45,16 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
+    public void add(Collection<Order> orders) {
+        if (orders != null) {
+            for (Order order: orders) {
+                order.setID(SimpleSequenceGenerator.getNextID());
+            }
+            orderRepo.add(orders);
+        }
+    }
+
+    @Override
     public void deleteByID(Integer id) {
         if (id != null) {
             orderRepo.deleteByID(id);
@@ -56,7 +67,7 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
-    public List<Order> search(OrderSearchCondition searchCondition) {
+    public List<? extends Order> search(OrderSearchCondition searchCondition) {
         return orderRepo.search(searchCondition);
     }
 

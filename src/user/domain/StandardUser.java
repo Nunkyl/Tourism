@@ -8,9 +8,9 @@ public class StandardUser extends BaseUser {
     private String passportID;
     private String timeFrameForRegularAds;
 
-    public StandardUser(String firstName, String lastName){
-        super(firstName, lastName);
-
+    public StandardUser(String firstName, String lastName, UserCategory discriminator, String passportID){
+        super(firstName, lastName, discriminator);
+        this.passportID = passportID;
     }
 
     public void setPassportID(String passportID) {
@@ -37,6 +37,7 @@ public class StandardUser extends BaseUser {
     public String toString() {
         return "StandardUser{" +
                 "ID='" + ID + '\'' +
+                ", discriminator='" + discriminator.name() + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", passport='" + passportID + '\'' +

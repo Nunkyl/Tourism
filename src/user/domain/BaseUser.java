@@ -11,14 +11,16 @@ public abstract class BaseUser extends BaseDomain {
 
     protected String firstName;
     protected String lastName;
-    protected List<Order> orders = null;
+    protected List<Order> orders;
+    protected UserCategory discriminator;
 
     public BaseUser() {
     }
 
-    public BaseUser(String firstName, String lastName) {
+    public BaseUser(String firstName, String lastName, UserCategory discriminator) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.discriminator = discriminator;
     }
 
     public void setFirstName(String firstName) {
@@ -33,6 +35,10 @@ public abstract class BaseUser extends BaseDomain {
         this.orders = orders;
     }
 
+    public void setDiscriminator(UserCategory discriminator) {
+        this.discriminator = discriminator;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -43,6 +49,10 @@ public abstract class BaseUser extends BaseDomain {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public UserCategory getDiscriminator() {
+        return discriminator;
     }
 
     public abstract String toString();

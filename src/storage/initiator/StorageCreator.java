@@ -7,6 +7,7 @@ import storage.initiator.inputdataparsers.CountriesAndCitiesTextFileParser;
 import storage.initiator.inputdataparsers.FileParser;
 import sun.jvm.hotspot.oops.Mark;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class StorageCreator {
         STAX
     }
 
-    public void fillStorageWithCountriesAndCities(String filePath, DataSourceType dataSourceType, ParserType parserType)
+    public void fillStorageWithCountriesAndCities(String[] filePath, DataSourceType[] dataSourceType, ParserType[] parserType)
             throws Exception {
         List<BaseCountry> countries = readCountriesFromFile(filePath, dataSourceType, parserType);
 
@@ -42,41 +43,47 @@ public class StorageCreator {
         }
     }
 
-    private List<BaseCountry> readCountriesFromFile(String filePath, DataSourceType dataSourceType, ParserType parserType)
+    private List<BaseCountry> readCountriesFromFile(String[] filePath, DataSourceType[] dataSourceType, ParserType[] parserType)
             throws Exception {
 
         FileParser<List<BaseCountry>> dataSourceReader = null;
+        List<BaseCountry> result = new LinkedList<>();
 
-        switch (dataSourceType) {
+        for(int i = 0; i < filePath.length; i++) {
+            switch (dataSourceType[i]) {
 
-            case TXT_FILE: {
-                dataSourceReader = new CountriesAndCitiesTextFileParser();
-                break;
-            }
-
-            case XML_FILE: {
-
-                switch (parserType){
-                    case DOM: {
-                        //dataSourceReader = new CountriesWithCitiesXmlDomParser();
-                        break;
-                    }
-
-                    case SAX: {
-                        dataSourceReader = new CountriesAndCitiesSaxParser();
-                        break;
-                    }
-
-                    case STAX: {
-                        //dataSourceReader = new CountriesWithCitiesXmlStaxParser();
-                        break;
-                    }
+                case TXT_FILE: {
+                    dataSourceReader = new CountriesAndCitiesTextFileParser();
+                    break;
                 }
-                break;
+
+                case XML_FILE: {
+
+                    switch (parserType[i]) {
+                        case DOM: {
+                            //dataSourceReader = new CountriesWithCitiesXmlDomParser();
+                            break;
+                        }
+
+                        case SAX: {
+                            //result.addAll(new ThreadInitiator<>(filePath[i], new CountriesAndCitiesSaxParser()).
+                                    //readDataFromFileInSeparateThread());
+                            //dataSourceReader = new CountriesAndCitiesSaxParser();
+                            break;
+                        }
+
+                        case STAX: {
+                            //dataSourceReader = new CountriesWithCitiesXmlStaxParser();
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
         }
 
-        return dataSourceReader.parseFile(filePath);
+        //return dataSourceReader.parseFile(filePath);
+        return result;
     }
 
 }

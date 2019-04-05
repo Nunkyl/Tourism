@@ -6,6 +6,7 @@ import city.search.CitySearchCondition;
 import city.service.CityService;
 import storage.SimpleSequenceGenerator;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -32,6 +33,16 @@ public class CityDefaultService implements CityService {
         if (city != null) {
             city.setID(SimpleSequenceGenerator.getNextID());
             cityRepo.add(city);
+        }
+    }
+
+    @Override
+    public void add(Collection<City> cities) {
+        if (cities != null) {
+            for (City city: cities) {
+                city.setID(SimpleSequenceGenerator.getNextID());
+            }
+            cityRepo.add(cities);
         }
     }
 
@@ -64,7 +75,7 @@ public class CityDefaultService implements CityService {
     }
 
     @Override
-    public List<City> search(CitySearchCondition searchCondition) {
+    public List<? extends City> search(CitySearchCondition searchCondition) {
         return cityRepo.search(searchCondition);
     }
 

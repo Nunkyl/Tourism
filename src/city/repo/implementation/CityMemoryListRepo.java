@@ -3,12 +3,13 @@ package city.repo.implementation;
 import city.domain.City;
 import city.repo.CityRepo;
 import city.search.CitySearchCondition;
+import common.business.search.Paginator;
 import common.business.search.SortDirection;
+import common.solutions.utils.CollectionUtils;
+import country.domain.BaseCountry;
+import order.domain.Order;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static common.solutions.utils.StringUtils.isNotBlank;
 import static storage.Storage.citiesInStorage;
@@ -19,9 +20,16 @@ import static storage.Storage.citiesInStorage;
  */
 public class CityMemoryListRepo implements CityRepo{
 
+    private CitySortingComponent orderingComponent = new CitySortingComponent();
+
     @Override
     public void add(City city) {
         citiesInStorage.add(city);
+    }
+
+    @Override
+    public void add(Collection<City> cities) {
+        citiesInStorage.addAll(cities);
     }
 
     @Override
@@ -34,9 +42,59 @@ public class CityMemoryListRepo implements CityRepo{
     }
 
     @Override
+    public List<? extends City> search(CitySearchCondition searchCondition) {
+        if (searchCondition.getID() != null) {
+            return Collections.singletonList(findByID(searchCondition.getID())); // returns an immutable list containing only the specified object
+        } else {
+            List<? extends City> result = doSearch(searchCondition);
+
+            boolean needOrdering = !result.isEmpty() && searchCondition.needSorting();
+            if (needOrdering) {
+                orderingComponent.applyOrdering(result, searchCondition);
+            }
+
+            if (!result.isEmpty() && searchCondition.needPaginator()) {
+                result = getPageableData(result, searchCondition.getPaginator());
+            }
+            return result;
+        }
+    }
+
+    private List<? extends City> getPageableData(List<? extends City> models, Paginator paginator) {
+        return CollectionUtils.getPageableData(models, paginator.getLimit(), paginator.getOffset());
+    }
+
+    private List<City> doSearch(CitySearchCondition searchCondition) {
+        List<City> result = new LinkedList<>();
+        for (City city : citiesInStorage) { // from Storage
+            if (city != null) {
+                boolean found = true;
+
+                if (searchCondition.searchByName()) {
+                    found = searchCondition.getName().equals(city.getName());
+                }
+
+                if (found && searchCondition.searchByCountryName()) {
+                    found = searchCondition.getCountryName().equals(city.getCountry().getName());
+                }
+
+                if (found && searchCondition.searchByPopulation()) {
+                    found = searchCondition.getPopulation().equals(city.getPopulation());
+                }
+
+                if (found) {
+                    result.add(city);
+                }
+            }
+        }
+        return result;
+    }
+
+    /*
+    // Old version of search
+    @Override
     public List<City> search(CitySearchCondition searchCondition) {
 
-        /*
         List<City> answer = new LinkedList<>();
 
         if (searchCondition.getID() != null) {
@@ -72,7 +130,7 @@ public class CityMemoryListRepo implements CityRepo{
             Collections.sort(answer, Collections.reverseOrder(new compareCity()));
 
         return answer; // Check this
-        */
+
         return null;
     }
 
@@ -92,6 +150,8 @@ public class CityMemoryListRepo implements CityRepo{
             //} else return o1.getID().compareTo(o2.getID());
         }
     }
+
+    */
 
     @Override
     public void deleteByID(Integer id) {

@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface UserService extends BaseService<BaseUser, Integer> {
 
-    List<BaseUser> search(BaseUserSearchCondition searchCondition);
+    List<? extends BaseUser> search(BaseUserSearchCondition searchCondition);
 }

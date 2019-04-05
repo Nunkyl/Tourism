@@ -8,6 +8,7 @@ import user.search.BaseUserSearchCondition;
 import user.service.UserService;
 import storage.SimpleSequenceGenerator;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,14 +17,6 @@ import java.util.List;
 public class BaseUserDefaultService implements UserService {
 
     private final UserRepo userRepo;
-    //private SequenceGenerator sequenceGenerator;
-
-    /*
-    @Override
-    public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
-        this.sequenceGenerator = sequenceGenerator;
-    }
-    */
 
     public BaseUserDefaultService(UserRepo userRepo) {
 
@@ -35,6 +28,16 @@ public class BaseUserDefaultService implements UserService {
         if (user != null) {
             user.setID(SimpleSequenceGenerator.getNextID());
             userRepo.add(user);
+        }
+    }
+
+    @Override
+    public void add(Collection<BaseUser> users) {
+        if (users != null) {
+            for (BaseUser user: users) {
+                user.setID(SimpleSequenceGenerator.getNextID());
+            }
+            userRepo.add(users);
         }
     }
 
@@ -67,7 +70,7 @@ public class BaseUserDefaultService implements UserService {
     }
 
     @Override
-    public List<BaseUser> search(BaseUserSearchCondition searchCondition) {
+    public List<? extends BaseUser> search(BaseUserSearchCondition searchCondition) {
         return userRepo.search(searchCondition);
     }
 

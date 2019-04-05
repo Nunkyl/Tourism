@@ -1,6 +1,8 @@
 package order.repo.implementation;
 
 import city.domain.City;
+import common.business.search.Paginator;
+import common.solutions.utils.CollectionUtils;
 import country.domain.BaseCountry;
 import order.domain.Order;
 import order.repo.OrderRepo;
@@ -8,6 +10,7 @@ import order.search.OrderSearchCondition;
 
 import java.util.*;
 
+import static common.solutions.utils.CollectionUtils.getPageableData;
 import static storage.Storage.ordersInStorage;
 
 /**
@@ -41,6 +44,11 @@ public class OrderMemoryListRepo implements OrderRepo {
     }
 
     @Override
+    public void add(Collection<Order> orders) {
+        ordersInStorage.addAll(orders);
+    }
+
+    @Override
     public Order findByID(Integer id) {
         Integer orderIndex = findOrderIndexById(id);
         if (orderIndex != null) {
@@ -50,18 +58,26 @@ public class OrderMemoryListRepo implements OrderRepo {
     }
 
     @Override
-    public List<Order> search(OrderSearchCondition searchCondition) {
+    public List<? extends Order> search(OrderSearchCondition searchCondition) {
         if (searchCondition.getID() != null) {
             return Collections.singletonList(findByID(searchCondition.getID())); // returns an immutable list containing only the specified object
         } else {
-            List<Order> result = doSearch(searchCondition);
+            List<? extends Order> result = doSearch(searchCondition);
 
             boolean needOrdering = !result.isEmpty() && searchCondition.needSorting();
             if (needOrdering) {
                 orderingComponent.applyOrdering(result, searchCondition);
             }
+
+            if (!result.isEmpty() && searchCondition.needPaginator()) {
+                result = getPageableData(result, searchCondition.getPaginator());
+            }
             return result;
         }
+    }
+
+    private List<? extends Order> getPageableData(List<? extends Order> models, Paginator paginator) {
+        return CollectionUtils.getPageableData(models, paginator.getLimit(), paginator.getOffset());
     }
 
     private List<Order> doSearch(OrderSearchCondition searchCondition) {

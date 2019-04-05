@@ -9,6 +9,7 @@ import country.search.CountrySearchCondition;
 import country.service.CountryService;
 import storage.SimpleSequenceGenerator;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -43,6 +44,25 @@ public class CountryDefaultService implements CountryService{
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void add(Collection<BaseCountry> countries) {
+        if (countries != null) {
+            for (BaseCountry country: countries) {
+                country.setID(SimpleSequenceGenerator.getNextID());
+
+                if (country.getCities() != null) {
+                    for (City city : country.getCities()) {
+                        if (city != null) {
+                            cityService.add(city);
+                        }
+                    }
+                }
+
+            }
+            countryRepo.add(countries);
         }
     }
 
