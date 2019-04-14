@@ -14,6 +14,8 @@ public abstract class BaseUser extends BaseDomain {
     protected List<Order> orders;
     protected UserCategory discriminator;
 
+    protected Integer orderID;
+
     public BaseUser() {
     }
 
@@ -39,6 +41,10 @@ public abstract class BaseUser extends BaseDomain {
         this.discriminator = discriminator;
     }
 
+    public void setOrderID(Integer orderID) {
+        this.orderID = orderID;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -53,6 +59,10 @@ public abstract class BaseUser extends BaseDomain {
 
     public UserCategory getDiscriminator() {
         return discriminator;
+    }
+
+    public Integer getOrderID() {
+        return orderID;
     }
 
     public abstract String toString();

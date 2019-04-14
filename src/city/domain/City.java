@@ -14,9 +14,12 @@ public class City extends BaseDomain{
     private String name;
     private Integer population;
     private boolean isCapital;
+
     private BaseCountry country;
-    private List<Order> orders = null;
+    private List<Order> orders;
+
     private Integer countryID;
+    private Integer orderID;
 
     public City() {
     }
@@ -52,6 +55,10 @@ public class City extends BaseDomain{
         this.countryID = countryID;
     }
 
+    public void setOrderID(Integer orderID) {
+        this.orderID = orderID;
+    }
+
     public String getName() {
         return name;
     }
@@ -74,6 +81,10 @@ public class City extends BaseDomain{
 
     public Integer getCountryID() {
         return countryID;
+    }
+
+    public Integer getOrderID() {
+        return orderID;
     }
 
     private String ordersToString(){
