@@ -18,6 +18,8 @@ import order.domain.Order;
 import order.search.OrderSearchCondition;
 import order.search.OrderSortField;
 import order.service.OrderService;
+import reporting.ReportGenerator;
+import reporting.ReportProvider;
 import storage.initiator.DataSourceType;
 import storage.initiator.ParserType;
 import storage.initiator.ThreadInitiator;
@@ -342,6 +344,15 @@ public class TourismDemo {
             }
         }
 
+        public void createUserOrdersReports(){
+            try {
+                ReportProvider reportProvider = new ReportProvider(userService, orderService, countryService, cityService);
+                reportProvider.getUserOrdersTextFileReport();
+            } catch (Exception e){
+                System.out.println("Problems with generating report!");
+            }
+        }
+
         /*
         public void deleteUsers() {
 
@@ -389,7 +400,9 @@ public class TourismDemo {
 
         application.searchCities();
 
-        System.out.println("\n--------Delete city that still has orders------------\n");
+        //System.out.println("\n--------Delete city that still has orders------------\n");
+
+        application.createUserOrdersReports();
 
         //application.deleteUsers();
         //System.out.println();
