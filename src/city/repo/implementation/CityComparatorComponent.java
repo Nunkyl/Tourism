@@ -21,7 +21,7 @@ public final class CityComparatorComponent {
     static {
         comparatorsByField.put(NAME, getComparatorForUserField());
         comparatorsByField.put(COUNTRY_NAME, getComparatorForCountryField());
-        comparatorsByField.put(POPULATION, getComparatorForCityField());
+        comparatorsByField.put(POPULATION, getComparatorForPopulationField());
     }
 
     private CityComparatorComponent() {
@@ -45,14 +45,18 @@ public final class CityComparatorComponent {
 
     }
 
-    private static Comparator<City> getComparatorForCityField() {
-        return (city1, city2) -> {
+    private static Comparator<City> getComparatorForPopulationField() {
+        /*return (city1, city2) -> {
             if (city1 != null && city2 != null)
                 return compare(city1.getPopulation(), city2.getPopulation());
             else return 0;
-        };
-        //return (city1, city2) -> Comparator.comparingInt(city -> city.getPopulation()); // ?????????????
+        }*/
+
+        return Comparator.comparingInt(city -> city.getPopulation());
     }
+
+
+
 
     public Comparator<City> getComplexComparator(final CitySortField sortField) { // What's up with the final modifier?
         return (city1, city2) -> {

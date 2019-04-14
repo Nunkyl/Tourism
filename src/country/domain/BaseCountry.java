@@ -11,11 +11,11 @@ import java.util.List;
  */
 public abstract class BaseCountry extends BaseDomain {
 
-    protected ClimateCategory discriminator = null;
+    protected ClimateCategory discriminator;
     protected String name;
     protected String languages;
-    private List<City> cities = null;
-    private List<Order> orders = null;
+    private List<City> cities;
+    private List<Order> orders;
     private ClimateType climateType;
 
     public BaseCountry() {

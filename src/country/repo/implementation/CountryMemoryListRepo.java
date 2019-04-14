@@ -86,7 +86,6 @@ public class CountryMemoryListRepo implements CountryRepo {
 
         switch (discriminator) {
             case HOT: {
-                //result =  sortResults(searchHotCountries((CountryWithHotClimateSearchCondition) searchCondition));
                 result = searchHotCountries((CountryWithHotClimateSearchCondition) searchCondition);
                 break;
             }

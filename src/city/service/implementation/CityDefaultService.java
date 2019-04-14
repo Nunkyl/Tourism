@@ -1,13 +1,18 @@
 package city.service.implementation;
 
 import city.domain.City;
+import city.exception.unchecked.DeleteCityException;
 import city.repo.CityRepo;
 import city.search.CitySearchCondition;
 import city.service.CityService;
+import common.business.exception.TourismUncheckedException;
 import storage.SimpleSequenceGenerator;
+import order.repo.OrderRepo;
 
 import java.util.Collection;
 import java.util.List;
+
+import static city.exception.CityExceptionInfo.*;
 
 /**
  * Created by eliza on 27.02.19.
@@ -15,25 +20,21 @@ import java.util.List;
 public class CityDefaultService implements CityService {
 
     private final CityRepo cityRepo;
-    private SimpleSequenceGenerator sequenceGenerator;
+    private final OrderRepo orderRepo;
+    //private SimpleSequenceGenerator sequenceGenerator;
 
-    /*
-    @Override
-    public void setSequenceGenerator(SequenceGenerator sequenceGenerator) {
-        this.sequenceGenerator = sequenceGenerator;
-    }
-    */
-
-    public CityDefaultService(CityRepo cityRepo) {
+    public CityDefaultService(CityRepo cityRepo, OrderRepo orderRepo) {
         this.cityRepo = cityRepo;
+        this.orderRepo = orderRepo;
     }
 
     @Override
-    public void add(City city) {
+    public City add(City city) {
         if (city != null) {
             city.setID(SimpleSequenceGenerator.getNextID());
             cityRepo.add(city);
         }
+        return city;
     }
 
     @Override
@@ -63,10 +64,13 @@ public class CityDefaultService implements CityService {
     }
 
     @Override
-    public void deleteByID(Integer id) {
-        if (id != null) {
-            cityRepo.deleteByID(id);
-        }
+    public void deleteByID(Integer ID) throws TourismUncheckedException{
+        if (ID != null) {
+            boolean noOrders = orderRepo.getNumberOfOrdersForCity(ID) == 0;
+            if (noOrders){
+                cityRepo.deleteByID(ID);
+            } else throw new DeleteCityException(DELETE_CITY_REMAINING_ORDERS_ERROR);
+        } else throw new DeleteCityException(NO_CITY_FOUND_ERROR);
     }
 
     @Override

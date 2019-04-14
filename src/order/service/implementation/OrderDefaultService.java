@@ -21,11 +21,12 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
-    public void add(Order order) {
+    public Order add(Order order) {
         if (order != null) {
             order.setID(SimpleSequenceGenerator.getNextID());
             orderRepo.add(order);
         }
+        return order;
     }
 
     @Override

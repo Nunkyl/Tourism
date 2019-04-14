@@ -3,13 +3,14 @@ package common.solutions.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by eliza on 26.02.19.
  */
 public interface BaseService <T, ID> {
 
-    void add(T entity);
+    T add(T entity);
 
     void add(Collection<T> entity);
 

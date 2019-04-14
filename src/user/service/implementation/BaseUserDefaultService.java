@@ -24,11 +24,12 @@ public class BaseUserDefaultService implements UserService {
     }
 
     @Override
-    public void add(BaseUser user) {
+    public BaseUser add(BaseUser user) {
         if (user != null) {
             user.setID(SimpleSequenceGenerator.getNextID());
             userRepo.add(user);
         }
+        return user;
     }
 
     @Override

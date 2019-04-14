@@ -12,4 +12,6 @@ import java.util.List;
 public interface CountryService extends BaseService<BaseCountry, Integer> {
 
     List<? extends BaseCountry> search(CountrySearchCondition searchCondition);
+
+    void removeAllCitiesFromCountry(Integer countryID);
 }

@@ -13,6 +13,8 @@ import java.util.*;
 import static common.solutions.utils.CollectionUtils.getPageableData;
 import static storage.Storage.ordersInStorage;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Created by eliza on 26.02.19.
  */
@@ -35,6 +37,8 @@ public class OrderMemoryListRepo implements OrderRepo {
 
         if (orderIndex != null) {
             deleteOrderByIndex(orderIndex);
+
+            //getNumberOfOrdersForCountry();
         }
     }
 
@@ -214,4 +218,48 @@ public class OrderMemoryListRepo implements OrderRepo {
     public List<Order> findAll() {
         return ordersInStorage;
     }
+
+    public int getNumberOfOrdersForCountry(Integer CountryID){
+
+        /*
+        int result = 0;
+        for (Order order : ordersInStorage){
+            for (BaseCountry country : order.getCountries()){
+                if (country.getID().equals(CountryID)) {
+                    result++;
+                    break;
+                }
+            }
+        }
+        return res;
+        */
+
+        return (int) ordersInStorage.stream().filter(order -> {Long res = order.getCountries().stream()
+                .filter(country -> country.getID().equals(CountryID))
+                .count();
+                if (res > 0) return true; else return false;})
+                                       .count();
+    }
+
+    public int getNumberOfOrdersForCity(Integer CityID){
+
+        return (int) ordersInStorage.stream().filter(order -> {Long res = order.getCities().stream()
+                .filter(city -> city.getID().equals(CityID))
+                .count();
+            if (res > 0) return true; else return false;})
+                .count();
+    }
+
+    @Override
+    public void deleteByUserId(Integer userId) {
+    }
+
+    @Override
+    public List<Order> findByUserId(Integer userId) {
+        return ordersInStorage.stream().filter(order -> order.getUser().getID().equals(userId))
+                                       .collect(toList());
+    }
+
+
+
 }

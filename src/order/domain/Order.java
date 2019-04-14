@@ -14,8 +14,12 @@ public class Order extends BaseDomain {
 
     private float price;
     private BaseUser user;
-    private List<BaseCountry> countries = null;
-    private List<City> cities = null;
+    private List<BaseCountry> countries;
+    private List<City> cities;
+
+    private Integer userID;
+    private Integer countryID;
+    private Integer cityID;
 
     public Order() {
     }
@@ -47,6 +51,18 @@ public class Order extends BaseDomain {
         this.cities = cities;
     }
 
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public void setCountryID(Integer countryID) {
+        this.countryID = countryID;
+    }
+
+    public void setCityID(Integer cityID) {
+        this.cityID = cityID;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -61,6 +77,18 @@ public class Order extends BaseDomain {
 
     public List<City> getCities() {
         return cities;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public Integer getCountryID() {
+        return countryID;
+    }
+
+    public Integer getCityID() {
+        return cityID;
     }
 
     private String citiesToString(){

@@ -17,7 +17,7 @@ public final class CityServiceCreator {
         switch (storageType) {
 
             case LINKED_LIST:
-                return new CityDefaultService(new CityMemoryListRepo());
+                //return new CityDefaultService(new CityMemoryListRepo());
 
             case DATABASE:{
                 return null;

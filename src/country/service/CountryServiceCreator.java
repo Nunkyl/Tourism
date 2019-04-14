@@ -19,8 +19,8 @@ public final class CountryServiceCreator {
         switch (storageType) {
 
             case LINKED_LIST:
-                return new CountryDefaultService(new CountryMemoryListRepo(),
-                        new CityDefaultService(new CityMemoryListRepo()));
+                //return new CountryDefaultService(new CountryMemoryListRepo(),
+                        //new CityDefaultService(new CityMemoryListRepo()));
 
             case DATABASE:{
                 return null;
