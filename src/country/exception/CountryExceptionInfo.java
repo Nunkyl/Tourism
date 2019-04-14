@@ -5,9 +5,9 @@ package country.exception;
  */
 public enum CountryExceptionInfo {
 
-    DELETE_COUNTRY_REMAINING_ORDERS_ERROR(1, "Error while deleting country! " +
+    DELETE_COUNTRY_REMAINING_ORDERS_ERROR(20, "Error while deleting country! " +
                             "There are still orders associated with this destination."),
-    NO_COUNTRY_FOUND_ERROR(2, "Error while deleting country! " +
+    NO_COUNTRY_FOUND_ERROR(21, "Error while deleting country! " +
                             "No such country found in storage.");
 
     private int code;

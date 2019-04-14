@@ -1,49 +1,57 @@
 package storage.initiator;
 
-import storage.initiator.inputdataparsers.FileParser;
+import country.domain.BaseCountry;
+import country.service.CountryService;
+import storage.initiator.exceptions.checked.CountryCityParseXmlFileException;
 
-import java.util.LinkedList;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import static storage.initiator.exceptions.LoadDataExceptionInfo.PARSE_COUNTRY_CITY_ERROR;
 
 /**
  * Created by eliza on 27.03.19.
  */
-public class ThreadInitiator  <T> implements Runnable {
+public class ThreadInitiator {
 
-    private String inputFile;
-    private FileParser<List<T>> parser;
-    private List<T> outputList;
+    private final CountryService countryService;
 
-    public ThreadInitiator(String inputFile, FileParser<List<T>> parser) {
-        this.inputFile = inputFile;
-        this.parser = parser;
+    public ThreadInitiator(CountryService countryService) {
+        this.countryService = countryService;
     }
 
-    @Override
-    public void run() {
-        try{
-            outputList = parser.parseFile(inputFile);
-        } catch (Exception e){
-            System.out.println("Problems with parsing files!");
-            e.printStackTrace();
+    public void initStorageWithMarksAndModels(List<File> files, DataSourceType dataSourceType, ParserType parserType)
+            throws Exception {
+        List<ParserCreator> countryCityFileParsers = prepareAsyncParsers(files, dataSourceType, parserType);
+        List<BaseCountry> countries = asyncParseFilesAndWaitForResult(countryCityFileParsers);
+        countryService.add(countries);
+    }
+
+    private List<ParserCreator> prepareAsyncParsers(List<File> files, DataSourceType dataSourceType,
+                                                    ParserType parserType) {
+        List<ParserCreator> markModelFileParsers = new ArrayList<>();
+        for (File file : files) {
+            markModelFileParsers.add(new ParserCreator(file, dataSourceType, parserType));
+        }
+        return markModelFileParsers;
+    }
+
+    private List<BaseCountry> asyncParseFilesAndWaitForResult(List<ParserCreator> workers) throws Exception {
+        for (ParserCreator worker : workers) {
+            worker.asyncParseCountries();
         }
 
-    }
-
-    public void readDataFromFileInSeparateThread(){
-
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    /*
-    public List<T> getOutputList(){
-        try {
-            thread.join();
-        } catch (InterruptedException e){
-            e.printStackTrace();
+        List<BaseCountry> countries = new ArrayList<>();
+        for (ParserCreator worker : workers) {
+            worker.blockUntilJobIsFinished();
+            if (worker.getParseException() != null) {
+                throw new CountryCityParseXmlFileException(PARSE_COUNTRY_CITY_ERROR.getCode(),
+                        PARSE_COUNTRY_CITY_ERROR.getDescription(), worker.getParseException());
+            }
+            countries.addAll(worker.getCountries());
         }
 
-    }*/
-
+        return countries;
+    }
 }

@@ -18,19 +18,21 @@ import order.domain.Order;
 import order.search.OrderSearchCondition;
 import order.search.OrderSortField;
 import order.service.OrderService;
-import storage.initiator.StorageCreator;
+import storage.initiator.DataSourceType;
+import storage.initiator.ParserType;
+import storage.initiator.ThreadInitiator;
 import user.domain.*;
 import user.search.BaseUserSearchCondition;
 import user.search.VIPUserSearchCondition;
 import user.service.UserService;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import static common.solutions.utils.RandomUtils.getRandomInt;
-
-// https://github.com/DmitryYusupov/javacore/blob/master/src/ru/yusdm/javacore
-// https://github.com/EricCartman598/Travel/tree/master/src
 
 public class TourismDemo {
 
@@ -44,8 +46,6 @@ public class TourismDemo {
         private CountryService countryService = ServiceSupplier.getInstance().getCountryService();
         private CityService cityService = ServiceSupplier.getInstance().getCityService();
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
-
-        private StorageCreator storage = new StorageCreator(countryService);
 
         private void addUsers() {
             String[] usersAsCsv = new String[]{
@@ -175,13 +175,13 @@ public class TourismDemo {
             for (Order order : orders) {
                 orderService.add(order);
 
-                for (BaseCountry country: order.getCountries()){
+                for (BaseCountry country : order.getCountries()) {
                     if (country.getOrders() == null) {
                         country.setOrders(new LinkedList<>());
                     }
-                        country.getOrders().add(order);
+                    country.getOrders().add(order);
                 }
-                for (City city: order.getCities()){
+                for (City city : order.getCities()) {
                     if (city.getOrders() == null) {
                         city.setOrders(new LinkedList<>());
                     }
@@ -201,53 +201,38 @@ public class TourismDemo {
             order.setCountries(new LinkedList<BaseCountry>());
             order.getCountries().add(country);
             order.setCities(new LinkedList<City>());
-            order.getCities().add(country.getCities().get(getRandomInt(0, country.getCities().size() - 1))  );
+            order.getCities().add(country.getCities().get(getRandomInt(0, country.getCities().size() - 1)));
             order.setPrice(getRandomInt(1, 100000));
 
             return order;
         }
 
-
         public void fillStorage() {
-            String xmlFile = "./InputData/countriesWithCities.xml";
-
             try {
                 addUsers();
-                addCountriesWithCities();
-                //fillStorageFromXml(file);
-                //fillStorageInParallel();
+                //addCountriesWithCities();
+                fillStorageInParallel();
                 addOrders();
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Problems with filling Storage!");
-                e.printStackTrace();
             }
         }
 
-        /*
-        public void fillStorageFromXml(String file) throws Exception{
-            addUsers();
-            storage.fillStorageWithCountriesAndCities(file, StorageCreator.DataSourceType.XML_FILE, StorageCreator.ParserType.SAX);
-        }
-        */
-
-        public void fillStorageFromXmlInParallel(String[] file, StorageCreator.DataSourceType[] sT,
-                                                 StorageCreator.ParserType[] pT) throws Exception{
-            storage.fillStorageWithCountriesAndCities(file, sT, pT);
+        public void fillStorageFromXmlInParallel(List<File> files, DataSourceType sT, ParserType pT) throws Exception {
+            ThreadInitiator threadInitiator = new ThreadInitiator(countryService);
+            threadInitiator.initStorageWithMarksAndModels(files, sT, pT);
         }
 
-        public void fillStorageInParallel(){
+        public void fillStorageInParallel() {
 
-            String[] files = {"./InputData/countriesWithCitiesPart1.xml",
-                              "./InputData/countriesWithCitiesPart2.xml"};
-            StorageCreator.DataSourceType[] sourceType = {StorageCreator.DataSourceType.XML_FILE,
-                                                          StorageCreator.DataSourceType.XML_FILE};
-
-            StorageCreator.ParserType[] parserType = {StorageCreator.ParserType.SAX,
-                                                      StorageCreator.ParserType.SAX};
+            List<File> files = new ArrayList<>(Arrays.asList(new File("./InputData/countriesWithCitiesPart1.xml"),
+                    new File("./InputData/countriesWithCitiesPart2.xml")));
+            DataSourceType sourceType = DataSourceType.XML_FILE;
+            ParserType parserType = ParserType.SAX;
 
             try {
                 fillStorageFromXmlInParallel(files, sourceType, parserType);
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("fillStorageFromXmlInParallel error!");
                 e.printStackTrace();
             }
@@ -261,9 +246,13 @@ public class TourismDemo {
             countryService.printAll();
         }
 
-        public void printOrders() { orderService.printAll();}
+        public void printOrders() {
+            orderService.printAll();
+        }
 
-        public void printCities() { cityService.printAll();}
+        public void printCities() {
+            cityService.printAll();
+        }
 
         public void searchOrders() {
 
@@ -306,7 +295,6 @@ public class TourismDemo {
             for (BaseCountry country : searchResult) {
                 System.out.println(country);
             }
-
         }
 
         public void searchUsers() {
@@ -324,7 +312,6 @@ public class TourismDemo {
             for (BaseUser user : searchResult) {
                 System.out.println(user);
             }
-
 
             System.out.println("\n\n----------Search users by passportID (PAGINATOR)------------\n");
 
@@ -376,61 +363,36 @@ public class TourismDemo {
         */
     }
 
+    public static void main(String[] args) {
 
-        public static void main(String[] args) {
+        Application application = new Application();
 
+        application.fillStorage();
 
+        System.out.println("\n--------Users------------\n");
+        application.printUsers();
 
-            Application application = new Application();
+        System.out.println("\n--------Countries------------\n");
+        application.printCountries();
 
+        System.out.println("\n--------Orders------------\n");
+        application.printOrders();
 
-            application.fillStorage();
+        System.out.println("\n--------Cities------------\n");
+        application.printCities();
 
-            System.out.println("\n--------Users------------\n");
-            application.printUsers();
+        application.searchOrders();
 
-            System.out.println("\n--------Countries------------\n");
-            application.printCountries();
+        application.searchCountries();
 
-            System.out.println("\n--------Orders------------\n");
-            application.printOrders();
+        application.searchUsers();
 
-            System.out.println("\n--------Cities------------\n");
-            application.printCities();
+        application.searchCities();
 
-            application.searchOrders();
+        System.out.println("\n--------Delete city that still has orders------------\n");
 
-            application.searchCountries();
+        //application.deleteUsers();
+        //System.out.println();
 
-            application.searchUsers();
-
-            application.searchCities();
-
-            //application.deleteUsers();
-            //System.out.println();
-
-            ClimateType cT = ClimateType.POLAR;
-
-            /*
-
-            System.out.println("\n--------Test input from file------------\n");
-
-            String file = "./InputData/countriesWithCities.xml";
-            try{
-                application.fillStorageFromXml(file);
-            } catch (Exception e){
-                System.out.println("SAX exception");
-            }
-
-            System.out.println("\n--------Users------------\n");
-            application.printUsers();
-
-            System.out.println("\n--------Countries------------\n");
-            application.printCountries();
-
-            application.deleteUsers();
-            System.out.println();
-
-            */
     }
 }

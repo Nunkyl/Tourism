@@ -1,10 +1,8 @@
 package user.dto;
 
 import common.business.dto.BaseDto;
-import order.domain.Order;
 import user.domain.UserCategory;
 
-import java.util.List;
 
 /**
  * Created by eliza on 14.04.19.
