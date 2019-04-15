@@ -1,9 +1,11 @@
 package storage.initiator;
 
 import country.domain.BaseCountry;
+import storage.initiator.inputdataparsers.CountriesAndCitiesDomParser;
 import storage.initiator.inputdataparsers.CountriesAndCitiesSaxParser;
+import storage.initiator.inputdataparsers.CountriesAndCitiesStaxParser;
 import storage.initiator.inputdataparsers.CountriesAndCitiesTextFileParser;
-import storage.initiator.inputdataparsers.FileParser;
+import common.solutions.parser.FileParser;
 
 import java.io.File;
 import java.util.List;
@@ -52,7 +54,7 @@ public class ParserCreator implements Runnable{
                 case XML_FILE: {
                     switch (parserType) {
                         case DOM: {
-                            //dataSourceReader = new CountriesWithCitiesXmlDomParser();
+                            dataSourceReader = new CountriesAndCitiesDomParser();
                             break;
                         }
                         case SAX: {
@@ -60,7 +62,8 @@ public class ParserCreator implements Runnable{
                             break;
                         }
                         case STAX: {
-                            //dataSourceReader = new CountriesWithCitiesXmlStaxParser();
+                            // There are some issues with this parser that must be fixed
+                            dataSourceReader = new CountriesAndCitiesStaxParser();
                             break;
                         }
                     }

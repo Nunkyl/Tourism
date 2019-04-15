@@ -1,11 +1,10 @@
 package storage.initiator.inputdataparsers;
 
 import city.domain.City;
-import common.business.application.servicefactory.ServiceSupplier;
 import country.domain.BaseCountry;
 import country.domain.CountryWithColdClimate;
 import country.domain.CountryWithHotClimate;
-import country.service.CountryService;
+import common.solutions.parser.FileParser;
 
 import java.io.BufferedReader;
 import java.io.File;

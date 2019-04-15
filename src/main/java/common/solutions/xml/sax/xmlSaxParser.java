@@ -1,4 +1,4 @@
-package common.solutions.xml;
+package common.solutions.xml.sax;
 
 import org.xml.sax.SAXException;
 

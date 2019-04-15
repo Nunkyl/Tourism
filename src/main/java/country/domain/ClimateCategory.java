@@ -12,7 +12,6 @@ public enum ClimateCategory {
     HOT,
     NOT_SET;
 
-
     private static Map<String, ClimateCategory> climateMap;
 
     static {

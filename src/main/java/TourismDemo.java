@@ -230,7 +230,7 @@ public class TourismDemo {
             List<File> files = new ArrayList<>(Arrays.asList(new File("./InputData/countriesWithCitiesPart1.xml"),
                     new File("./InputData/countriesWithCitiesPart2.xml")));
             DataSourceType sourceType = DataSourceType.XML_FILE;
-            ParserType parserType = ParserType.SAX;
+            ParserType parserType = ParserType.DOM;
 
             try {
                 fillStorageFromXmlInParallel(files, sourceType, parserType);

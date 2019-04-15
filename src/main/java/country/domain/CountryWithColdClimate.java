@@ -8,6 +8,7 @@ import country.domain.BaseCountry;
 public class CountryWithColdClimate extends BaseCountry {
 
     public CountryWithColdClimate() {
+        discriminator = ClimateCategory.COLD;
     }
 
     public CountryWithColdClimate(String name, String languages) {
@@ -38,11 +39,11 @@ public class CountryWithColdClimate extends BaseCountry {
     public String toString() {
         return "BaseCountry{" +
                 "ID=" + ID +
-                ", type='" + discriminator.name() + '\'' +
+                ", climate=" + discriminator.name() + '\'' +
                 ", name='" + name + '\'' +
                 ", languages=" + languages +
                 ", citiesInStorage=" + citiesToString() +
-                "ordersInStorage=" + ordersToString() +
+                ", ordersInStorage=" + ordersToString() +
                 '}';
     }
 }

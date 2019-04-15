@@ -1,44 +1,43 @@
 <countries>
-    <country climateCategory = "COLD">
-        <name> England </name>
-        <languages> English </languages>
+    <country climateCategory="COLD">
+        <name>England</name>
+        <languages>English</languages>
         <cities>
             <city>
-                <name> London </name>
-                <population> 8100000 </population>
-                <isCapital> True  </isCapital>   
+                <name>London</name>
+                <population>8100000</population>
+                <isCapital>True</isCapital>
             </city>
             <city>
-                <name> Liverpool </name>
-                <population> 470000 </population>
-                <isCapital> False  </isCapital>   
+                <name>Liverpool</name>
+                <population>470000</population>
+                <isCapital>False</isCapital>
             </city>
             <city>
-                <name> Bristol </name>
-                <population> 430000 </population>
-                <isCapital> False </isCapital>   
+                <name>Bristol</name>
+                <population>430000</population>
+                <isCapital>False</isCapital>
             </city>
         </cities>
     </country>
-    <country climateCategory = "COLD">
-        <name> Russia </name>
-        <languages> Russian </languages>
-        
+    <country climateCategory="COLD">
+        <name>Russia</name>
+        <languages>Russian</languages>
         <cities>
             <city>
-                <name> Moscow </name>
-                <population> 12000000 </population>
-                <isCapital> True  </isCapital>   
+                <name>Moscow</name>
+                <population>12000000</population>
+                <isCapital>True</isCapital>
             </city>
             <city>
-                <name> Saint-Petersburg </name>
-                <population> 5000000 </population>
-                <isCapital> False  </isCapital>   
+                <name>Saint-Petersburg</name>
+                <population>5000000</population>
+                <isCapital>False</isCapital>
             </city>
             <city>
-                <name> Kazan </name>
-                <population> 1200000 </population>
-                <isCapital> False </isCapital>   
+                <name>Kazan</name>
+                <population>1200000</population>
+                <isCapital>False</isCapital>
             </city>
         </cities>
     </country>

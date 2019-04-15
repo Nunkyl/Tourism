@@ -6,6 +6,7 @@ package country.domain;
 public class CountryWithHotClimate extends BaseCountry {
 
     public CountryWithHotClimate() {
+        discriminator = ClimateCategory.HOT;
     }
 
     public CountryWithHotClimate(String name, String languages) {

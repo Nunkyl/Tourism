@@ -6,17 +6,17 @@
             <city>
                 <name> Toronto </name>
                 <population> 2700000 </population>
-                <isCapital> True  </isCapital>   
+                <isCapital> True </isCapital>
             </city>
             <city>
                 <name> Montreal </name>
                 <population> 1700000 </population>
-                <isCapital> False  </isCapital>   
+                <isCapital> False </isCapital>
             </city>
             <city>
                 <name> Edmonton </name>
                 <population> 970000 </population>
-                <isCapital> False </isCapital>   
+                <isCapital> False </isCapital>
             </city>
         </cities>
     </country>
@@ -27,17 +27,17 @@
             <city>
                 <name> Medellin </name>
                 <population> 2500000 </population>
-                <isCapital> False  </isCapital>   
+                <isCapital> False </isCapital>
             </city>
             <city>
                 <name> Bogota </name>
                 <population> 8100000 </population>
-                <isCapital> True  </isCapital>   
+                <isCapital> True </isCapital>
             </city>
             <city>
                 <name> Cali </name>
                 <population> 2400000 </population>
-                <isCapital> False </isCapital>   
+                <isCapital> False </isCapital>
             </city>
         </cities>
     </country>
@@ -48,17 +48,17 @@
             <city>
                 <name> Sydney </name>
                 <population> 4800000 </population>
-                <isCapital> False  </isCapital>   
+                <isCapital> False </isCapital>
             </city>
             <city>
                 <name> Melbourne </name>
                 <population> 4400000 </population>
-                <isCapital> False  </isCapital>   
+                <isCapital> False </isCapital>
             </city>
             <city>
                 <name> Perth </name>
                 <population> 1900000 </population>
-                <isCapital> False </isCapital>   
+                <isCapital> False </isCapital>
             </city>
         </cities>
     </country>
