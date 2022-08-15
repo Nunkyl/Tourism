@@ -11,6 +11,6 @@ jobs:
           fetch-depth: 0
       - uses: yesolutions/mirror-action@master
         with:
-          REMOTE: 'https://gitlab.actcognitive.org/LizLutsenko/tourism.git'
+          REMOTE: 'https://gitlab.actcognitive.org/LizLutsenko/tourism'
           GIT_USERNAME: LizLutsenko
           GIT_PASSWORD: ${{ secrets.GITLAB_PASSWORD }}
