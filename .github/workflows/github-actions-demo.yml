@@ -4,7 +4,7 @@ on: [push, pull_request, delete]
 
 jobs:
   call-nss-ops-mirror-workflow:
-    uses: https://github.com/Nunkyl/test-nss-ops/.github/workflows/mirror-repo.yml
+    uses: Nunkyl/test-nss-ops/.github/workflows/mirror-repo.yml@main
     with:
       GITLAB_URL: 'https://gitlab.actcognitive.org/LizLutsenko/tourism.git'
     secrets: inherit
