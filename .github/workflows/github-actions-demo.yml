@@ -7,8 +7,10 @@ jobs:
     uses: Nunkyl/test-nss-ops/.github/workflows/mirror-repo.yml@main
     with:
       GITLAB_URL: 'https://gitlab.actcognitive.org/LizLutsenko/tourism.git'
-    secrets: inherit
+    secrets:
+      GIT_USERNAME: ${{ secrets.GITLAB_USER }}
+      GIT_PASSWORD: ${{ secrets.GITLAB_PASSWORD }}
     
-#    
+#    ${{ secrets.GIT_PASSWORD }} ${{ secrets.GIT_PASSWORD }}
 
                   
