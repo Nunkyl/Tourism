@@ -8,5 +8,7 @@ jobs:
     with:
       GITLAB_URL: 'https://gitlab.actcognitive.org/LizLutsenko/tourism.git'
     secrets: inherit
+    
+#    
 
                   
